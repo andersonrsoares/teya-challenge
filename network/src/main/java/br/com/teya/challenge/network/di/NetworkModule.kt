@@ -1,6 +1,7 @@
 package br.com.teya.challenge.network.di
 
-import br.com.teya.challenge.network.TopAlbumsApi
+import br.com.teya.challenge.network.retrofit.adapter.RemoteResultCallAdapterFactory
+import br.com.teya.challenge.network.TopAlbumsService
 import com.squareup.moshi.Moshi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -9,7 +10,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.time.Duration
 
-private const val  BASE_URL = "https://itunes.apple.com/us/rss"
+private const val  BASE_URL = "https://itunes.apple.com/us/rss/"
 
 val NetworkModule = module {
     single { provideHTTPLoggingInterceptor() }
@@ -20,7 +21,7 @@ val NetworkModule = module {
 
     single { provideRetrofit(get(), get()) }
 
-    single { provideBlogService(get()) }
+    single { provideTopAlbumsService(get()) }
 
 }
 
@@ -49,12 +50,13 @@ private fun provideRetrofit(
 ): Retrofit {
     return Retrofit.Builder()
         .baseUrl(BASE_URL)
+        .addCallAdapterFactory(RemoteResultCallAdapterFactory())
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .client(okHttpClient)
         .build()
 }
 
 
-private fun provideBlogService(retrofit: Retrofit): TopAlbumsApi {
-    return retrofit.create(TopAlbumsApi::class.java);
+private fun provideTopAlbumsService(retrofit: Retrofit): TopAlbumsService {
+    return retrofit.create(TopAlbumsService::class.java);
 }

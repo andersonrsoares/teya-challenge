@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "teya-challenge"
 include(":app")
- 
+include(":network")

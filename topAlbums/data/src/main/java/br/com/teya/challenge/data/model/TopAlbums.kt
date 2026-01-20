@@ -15,23 +15,11 @@ data class AlbumEntry(
     val images: List<AlbumImage>,
 )
 
-
-data class AlbumName(
-    val label: String
-)
-
-
 data class AlbumImage(
     val label: String,
     val attributes: ImageAttributes
 )
 
-
 data class ImageAttributes(
     val height: String
-)
-
-
-data class AlbumArtist(
-    val label: String
 )

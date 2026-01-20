@@ -13,12 +13,14 @@ inline fun <T, R> RemoteDataSourceResult<T>.map(
     }
 
 inline fun <T> RemoteDataSourceResult<T>.mapToResult(
+    onSuccess: (T) -> Unit,
     transform: (RemoteDataSourceError) -> ResultErrorMessage,
 ): Result<T> =
     when (this) {
-        is RemoteDataSourceResult.Success ->
-            Result.Success(data)
-
+        is RemoteDataSourceResult.Success -> {
+            onSuccess(data)
+            Result.Success(data )
+        }
         is RemoteDataSourceResult.Error -> Result.Error(transform(error))
     }
 

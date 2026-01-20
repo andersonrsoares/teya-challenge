@@ -31,4 +31,9 @@ dependencies {
 
     // retrofit
     implementation(libs.koin.android)
+
+    // room
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
 }

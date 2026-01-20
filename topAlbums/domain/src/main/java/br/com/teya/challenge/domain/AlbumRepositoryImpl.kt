@@ -8,7 +8,7 @@ import br.com.teya.challenge.data.model.AlbumEntry
 internal class AlbumRepositoryImpl(
     private val localDataSource: AlbumsLocalDataSource,
 ) : AlbumRepository {
-    override suspend fun fetchAlbums(id: String): Result<AlbumEntry> {
+    override suspend fun fetchAlbum(id: String): Result<AlbumEntry> {
         val response = localDataSource.fetchAlbum(id)
         if (response != null) {
             return Result.Success(response)

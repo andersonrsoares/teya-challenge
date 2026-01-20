@@ -41,9 +41,6 @@ android {
 dependencies {
     implementation(project(":network"))
     implementation(project(":common"))
-    implementation(project(":topAlbums"))
-    implementation(project(":topAlbums:data"))
-    implementation(project(":topAlbums:domain"))
     implementation(project(":topAlbums:presentation"))
 
     implementation(libs.androidx.core.ktx)

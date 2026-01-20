@@ -26,6 +26,7 @@ internal fun EntryProviderScope<NavKey>.topAlbumsEntryBuilder() {
         )
     }
 }
-fun provideTopAlbumsEntryBuilder() :EntryProviderBuilder =
+
+fun provideTopAlbumsEntryBuilder() : EntryProviderBuilder =
     { topAlbumsEntryBuilder() }
 

@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.jetbrains.kotlin.serialization)
 }
 
 android {
@@ -43,6 +44,7 @@ dependencies {
     implementation(project(":topAlbums"))
     implementation(project(":topAlbums:data"))
     implementation(project(":topAlbums:domain"))
+    implementation(project(":topAlbums:presentation"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -53,9 +55,12 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
 
+    implementation(libs.nav3.runtime)
+    implementation(libs.nav3.ui)
+    implementation(libs.androidx.lifecycle.viewmodel.nav3)
+
     //koin
     implementation(libs.koin.android)
-
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

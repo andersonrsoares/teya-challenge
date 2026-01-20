@@ -1,7 +1,7 @@
 package br.com.teya.challenge.network.result
 
 import br.com.teya.challenge.common.result.ResultErrorMessage
-import br.com.teya.challenge.common.Result
+import br.com.teya.challenge.common.result.Result
 inline fun <T, R> RemoteDataSourceResult<T>.map(
     transform: (T) -> R
 ): RemoteDataSourceResult<R> =

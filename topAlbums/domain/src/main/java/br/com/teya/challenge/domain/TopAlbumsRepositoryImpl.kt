@@ -1,7 +1,7 @@
 package br.com.teya.challenge.domain
 
 import br.com.teya.challenge.data.remote.TopAlbumsRemoteDataSource
-import br.com.teya.challenge.common.Result
+import br.com.teya.challenge.common.result.Result
 import br.com.teya.challenge.common.result.ResultErrorMessage
 import br.com.teya.challenge.data.model.TopAlbums
 import br.com.teya.challenge.network.result.mapToResult

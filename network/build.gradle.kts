@@ -18,6 +18,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":common"))
+
     // Retrofit & OkHttp
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.converter.moshi)

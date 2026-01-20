@@ -11,37 +11,24 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import br.com.teya.challenge.common.navigation.NavigationHolder
+import br.com.teya.challenge.common.navigation.NavigationRoot
 import br.com.teya.challenge.ui.theme.TeyaChallengeTheme
+import org.koin.android.ext.android.get
 
 class MainActivity : ComponentActivity() {
+    val navigationHolder: NavigationHolder = get()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         setContent {
             TeyaChallengeTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                NavigationRoot(
+                    navigationHolder = navigationHolder
+                )
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    TeyaChallengeTheme {
-        Greeting("Android")
     }
 }

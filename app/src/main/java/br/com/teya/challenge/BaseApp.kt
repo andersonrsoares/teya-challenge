@@ -2,8 +2,8 @@ package br.com.teya.challenge
 
 import android.app.Application
 import br.com.teya.challenge.di.NavigationModule
-import br.com.teya.challenge.di.TopAlbumsModule
 import br.com.teya.challenge.network.di.NetworkModule
+import br.com.teya.challenge.presentation.di.TopAlbumsModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin

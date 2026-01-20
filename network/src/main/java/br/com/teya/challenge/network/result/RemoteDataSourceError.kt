@@ -1,4 +1,4 @@
-package br.com.teya.challenge.network
+package br.com.teya.challenge.network.result
 
 sealed class RemoteDataSourceError(val exception: Throwable) {
     class ServerError(exception: Throwable, val code: Int) : RemoteDataSourceError(exception)

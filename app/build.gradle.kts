@@ -39,6 +39,10 @@ android {
 
 dependencies {
     implementation(project(":network"))
+    implementation(project(":common"))
+    implementation(project(":topAlbums"))
+    implementation(project(":topAlbums:data"))
+    implementation(project(":topAlbums:domain"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -51,6 +55,7 @@ dependencies {
 
     //koin
     implementation(libs.koin.android)
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

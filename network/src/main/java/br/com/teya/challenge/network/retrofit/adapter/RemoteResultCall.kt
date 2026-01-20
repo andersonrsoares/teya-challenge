@@ -1,7 +1,7 @@
 package br.com.teya.challenge.network.retrofit.adapter
 
-import br.com.teya.challenge.network.RemoteDataSourceError
-import br.com.teya.challenge.network.RemoteDataSourceResult
+import br.com.teya.challenge.network.result.RemoteDataSourceError
+import br.com.teya.challenge.network.result.RemoteDataSourceResult
 import okhttp3.Request
 import okio.Timeout
 import retrofit2.Call

@@ -1,7 +1,6 @@
 package br.com.teya.challenge.network.di
 
 import br.com.teya.challenge.network.retrofit.adapter.RemoteResultCallAdapterFactory
-import br.com.teya.challenge.network.TopAlbumsService
 import com.squareup.moshi.Moshi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -20,9 +19,6 @@ val NetworkModule = module {
     single { provideMoshi() }
 
     single { provideRetrofit(get(), get()) }
-
-    single { provideTopAlbumsService(get()) }
-
 }
 
 private fun provideHTTPLoggingInterceptor(): HttpLoggingInterceptor {
@@ -54,9 +50,4 @@ private fun provideRetrofit(
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .client(okHttpClient)
         .build()
-}
-
-
-private fun provideTopAlbumsService(retrofit: Retrofit): TopAlbumsService {
-    return retrofit.create(TopAlbumsService::class.java);
 }

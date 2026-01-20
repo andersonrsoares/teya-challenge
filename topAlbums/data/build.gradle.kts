@@ -4,13 +4,15 @@ plugins {
 }
 
 android {
-    namespace = "br.com.teya.challenge.network"
+    namespace = "br.com.teya.top.albums.data"
     compileSdk {
         version = release(36)
     }
+
     defaultConfig {
         minSdk = 29
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -18,18 +20,15 @@ android {
 }
 
 dependencies {
-    implementation(project(":common"))
+    api(project(":network"))
 
-    // Retrofit & OkHttp
+    // retrofit
     implementation(libs.retrofit.core)
-    implementation(libs.retrofit.converter.moshi)
-    implementation(libs.okhttp.core)
-    implementation(libs.okhttp.logging.interceptor) // For logging network requests
 
     // Moshi
     implementation(libs.moshi.core)
     ksp(libs.moshi.codegen)
 
-    // koin
-   implementation(libs.koin.android)
+    // retrofit
+    implementation(libs.koin.android)
 }

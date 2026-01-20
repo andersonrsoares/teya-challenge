@@ -1,6 +1,7 @@
 package br.com.teya.challenge
 
 import android.app.Application
+import br.com.teya.challenge.di.TopAlbumsModule
 import br.com.teya.challenge.network.di.NetworkModule
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -13,7 +14,7 @@ class BaseApp : Application() {
 
         startKoin {
             androidLogger(Level.DEBUG)
-            modules(listOf(NetworkModule))
+            modules(listOf(NetworkModule) + TopAlbumsModule)
         }
     }
 }

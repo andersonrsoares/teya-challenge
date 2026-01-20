@@ -22,3 +22,7 @@ dependencyResolutionManagement {
 rootProject.name = "teya-challenge"
 include(":app")
 include(":network")
+include(":topAlbums")
+include(":topAlbums:data")
+include(":topAlbums:domain")
+include(":common")

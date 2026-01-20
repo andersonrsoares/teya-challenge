@@ -1,6 +1,5 @@
 package br.com.teya.challenge.network.retrofit.adapter
 
-import br.com.teya.challenge.network.result.RemoteDataSourceResult
 import retrofit2.Call
 import retrofit2.CallAdapter
 import retrofit2.Retrofit
@@ -28,7 +27,7 @@ class RemoteResultCallAdapterFactory : CallAdapter.Factory() {
         // get the response type inside the `Call` type
         val responseType = getParameterUpperBound(0, returnType)
         // if the response type is not ApiResponse then we can't handle this type, so we return null
-        if (getRawType(responseType) != RemoteDataSourceResult::class.java) {
+        if (getRawType(responseType) != Result::class.java) {
             return null
         }
 

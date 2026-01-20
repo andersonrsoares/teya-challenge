@@ -40,7 +40,7 @@ internal class TopAlbumsListViewModel(
                     )
                 }
             },
-            onError = {
+            onFailure = {
                 // TODO error state
                 editState {
                     copy(isLoading = false)

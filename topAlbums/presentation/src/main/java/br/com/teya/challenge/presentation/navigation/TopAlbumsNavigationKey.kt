@@ -5,4 +5,7 @@ import kotlinx.serialization.Serializable
 
 
 @Serializable
-data object TopAlbumsLisScreen : NavigatorKey
+data object TopAlbumsListScreen : NavigatorKey
+
+@Serializable
+data class TopAlbumsDetailScreen(val id: String) : NavigatorKey

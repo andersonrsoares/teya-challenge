@@ -3,19 +3,29 @@ package br.com.teya.challenge.presentation.navigation
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import br.com.teya.challenge.common.navigation.EntryProviderBuilder
+import br.com.teya.challenge.presentation.detail.TopAlbumsDetailScreen
+import br.com.teya.challenge.presentation.detail.TopAlbumsDetailViewModel
 import br.com.teya.challenge.presentation.list.TopAlbumsListScreen
 import br.com.teya.challenge.presentation.list.TopAlbumsListViewModel
 import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 internal fun EntryProviderScope<NavKey>.topAlbumsEntryBuilder() {
-    entry<TopAlbumsLisScreen> {
+    entry<TopAlbumsListScreen> {
         val viewModel = koinViewModel<TopAlbumsListViewModel>()
         TopAlbumsListScreen(
             viewModel = viewModel
         )
     }
+    entry<TopAlbumsDetailScreen> { entry ->
+        val viewModel = koinViewModel<TopAlbumsDetailViewModel>(
+            parameters = { parametersOf(entry.id) }
+        )
+        TopAlbumsDetailScreen(
+            viewModel = viewModel
+        )
+    }
 }
+fun provideTopAlbumsEntryBuilder() :EntryProviderBuilder =
+    { topAlbumsEntryBuilder() }
 
-fun provideTopAlbumsEntryBuilder() : EntryProviderBuilder = {
-    topAlbumsEntryBuilder()
-}

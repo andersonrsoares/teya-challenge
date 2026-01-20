@@ -17,7 +17,6 @@ import br.com.teya.challenge.ui.theme.TeyaChallengeTheme
 import org.koin.android.ext.android.get
 
 class MainActivity : ComponentActivity() {
-
     val navigationHolder: NavigationHolder = get()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,21 +30,5 @@ class MainActivity : ComponentActivity() {
                 )
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    TeyaChallengeTheme {
-        Greeting("Android")
     }
 }

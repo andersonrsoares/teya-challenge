@@ -5,22 +5,20 @@ import androidx.navigation3.runtime.NavKey
 import br.com.teya.challenge.common.navigation.NavigationHolder
 import br.com.teya.challenge.common.navigation.Navigator
 import br.com.teya.challenge.common.navigation.NavigatorImpl
-import br.com.teya.challenge.presentation.navigation.TopAlbumsLisScreen
+import br.com.teya.challenge.presentation.navigation.TopAlbumsListScreen
 import br.com.teya.challenge.presentation.navigation.provideTopAlbumsEntryBuilder
 import org.koin.dsl.module
 
 val NavigationModule = module {
     single {
-        NavBackStack<NavKey>(TopAlbumsLisScreen)
+        NavBackStack<NavKey>(TopAlbumsListScreen)
     }
     single {
         NavigatorImpl(get()) as Navigator
     }
     single {
         NavigationHolder(
-            entryBuilders = setOf(
-                provideTopAlbumsEntryBuilder()
-            ),
+            entryBuilders = setOf(provideTopAlbumsEntryBuilder()),
             navigator = get(),
             backStack = get(),
         )

@@ -4,12 +4,13 @@ import br.com.teya.challenge.common.navigation.Navigator
 import br.com.teya.challenge.common.result.fold
 import br.com.teya.challenge.common.viewmodel.EventViewModel
 import br.com.teya.challenge.domain.TopAlbumsRepository
+import br.com.teya.challenge.presentation.navigation.TopAlbumsDetailScreen
 import kotlinx.collections.immutable.toPersistentList
 
 internal class TopAlbumsListViewModel(
     stateProducer: TopAlbumsListStateProducer,
-    navigator: Navigator,
-    val repository: TopAlbumsRepository,
+    private val navigator: Navigator,
+    private val repository: TopAlbumsRepository,
 ): EventViewModel<TopAlbumsListState, TopAlbumsListEvent>(
      stateProducer = stateProducer,
 ) {
@@ -20,7 +21,7 @@ internal class TopAlbumsListViewModel(
                 loadTopAlbums()
             }
             is TopAlbumsListEvent.OnNavigateToAlbumDetails -> {
-
+                navigator.navigateTo(TopAlbumsDetailScreen(event.albumId))
             }
         }
     }

@@ -1,16 +1,15 @@
-package br.com.teya.challenge.presentation.list
+package br.com.teya.challenge.presentation.detail
 
 import androidx.compose.runtime.Immutable
 import br.com.teya.challenge.common.composables.UiText
 import br.com.teya.challenge.data.model.Album
 import br.com.teya.challenge.presentation.viewstate.AlbumViewState
-import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.persistentListOf
 
 @Immutable
-internal data class TopAlbumsListState(
+internal data class AlbumDetailState(
     val isLoading: Boolean = false,
     val isError: Boolean = false,
+    val album: AlbumViewState? = null,
     val error: UiText? = null,
-    val topAlbums: ImmutableList<AlbumViewState> = persistentListOf(),
 )
+

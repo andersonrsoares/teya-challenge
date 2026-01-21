@@ -3,4 +3,5 @@
     <string name="error_network_issue">Please check your internet connection and try again.</string>
     <string name="error_server">An server error happened, please try again.</string>
     <string name="error_unknown">An unknown error happened.</string>
+    <string name="retry_button">Retry</string>
 </resources>

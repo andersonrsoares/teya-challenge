@@ -1,11 +1,11 @@
 package br.com.teya.challenge.data.remote
 
-import br.com.teya.challenge.data.model.TopAlbums
+import br.com.teya.challenge.data.model.TopAlbumsFeed
 
 internal class TopAlbumsRemoteDataSourceImpl(
     private val topAlbumsService: TopAlbumsService
 ): TopAlbumsRemoteDataSource {
-    override suspend fun fetchTopAlbums(): Result<TopAlbums> {
+    override suspend fun fetchTopAlbums(): Result<TopAlbumsFeed> {
        return topAlbumsService.topAlbums().map { it.toTopAlbums()
        }
     }

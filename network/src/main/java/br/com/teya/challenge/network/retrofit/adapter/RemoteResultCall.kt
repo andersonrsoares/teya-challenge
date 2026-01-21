@@ -30,7 +30,6 @@ internal class RemoteResultCall<R>(
                     return Result.success( body()!!)
                 }
 
-
                 return Result.failure(
                     RemoteDataSourceServerException(
                         message = "Server error code: ${this.code()} error body: ${this.errorBody()?.string()}"

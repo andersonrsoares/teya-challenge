@@ -6,14 +6,18 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class AlbumEntity(
-    @PrimaryKey val name: String,
+    @PrimaryKey val id: String,
     val artist: String,
-    val id: String,
+    val name: String,
+    val releaseDate: String?,
+    val category: String,
+    val link: String?,
+    val rights: String?,
     @Embedded
-    val image: AlbumImageEntity,
+    val image: AlbumImageEntity?,
 )
 
 data class AlbumImageEntity(
     val label: String,
-    val height: String
+    val height: Int
 )

@@ -28,8 +28,7 @@ The app uses `Koin` for dependency injection.
     *   `Moshi`: For parsing JSON.
     *   `Koin`: For dependency injection.
 *   **Networking**:
-    *   `Retrofit`: For making network requests.
-    *   `OkHttp`: For logging network requests.
+    *   `Retrofit`/`OkHttp`: For making network requests.
 *   **Testing**:
     *   `JUnit`: For unit testing.
     *   `Mockk`: For mocking objects.

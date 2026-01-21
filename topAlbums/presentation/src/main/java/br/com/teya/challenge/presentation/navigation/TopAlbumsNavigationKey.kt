@@ -8,4 +8,4 @@ import kotlinx.serialization.Serializable
 data object TopAlbumsListScreen : NavigatorKey
 
 @Serializable
-data class TopAlbumsDetailScreen(val id: String) : NavigatorKey
+data class AlbumDetailScreen(val id: String) : NavigatorKey

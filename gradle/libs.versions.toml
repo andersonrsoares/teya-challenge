@@ -25,6 +25,7 @@ room = "2.8.4"
 coil = "2.7.0"
 browser = "1.9.0"
 mockk = "1.14.7"
+turbine = "1.1.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -88,6 +89,7 @@ coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coi
 androidx-browser = { group = "androidx.browser", name = "browser", version.ref = "browser" }
 
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
 
 
 [plugins]

@@ -5,7 +5,7 @@ import br.com.teya.challenge.common.result.fold
 import br.com.teya.challenge.common.result.toUiText
 import br.com.teya.challenge.common.viewmodel.EventViewModel
 import br.com.teya.challenge.domain.TopAlbumsRepository
-import br.com.teya.challenge.presentation.navigation.TopAlbumsDetailScreen
+import br.com.teya.challenge.presentation.navigation.AlbumDetailScreen
 import br.com.teya.challenge.presentation.viewstate.toViewState
 import kotlinx.collections.immutable.toPersistentList
 
@@ -28,7 +28,7 @@ internal class TopAlbumsListViewModel(
                 loadTopAlbums()
             }
             is TopAlbumsListEvent.OnNavigateToAlbumDetails -> {
-                navigator.navigateTo(TopAlbumsDetailScreen(event.albumId))
+                navigator.navigateTo(AlbumDetailScreen(event.albumId))
             }
         }
     }

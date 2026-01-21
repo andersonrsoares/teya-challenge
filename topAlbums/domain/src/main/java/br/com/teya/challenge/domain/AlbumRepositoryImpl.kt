@@ -3,7 +3,8 @@ package br.com.teya.challenge.domain
 import br.com.teya.challenge.common.result.DataStateResult
 import br.com.teya.challenge.common.result.ResultErrorMessage
 import br.com.teya.challenge.data.local.AlbumsLocalDataSource
-import br.com.teya.challenge.data.model.Album
+import br.com.teya.challenge.data.models.Album
+import br.com.teya.challenge.top.albums.domain.R
 
 internal class AlbumRepositoryImpl(
     private val localDataSource: AlbumsLocalDataSource,
@@ -14,9 +15,8 @@ internal class AlbumRepositoryImpl(
             return DataStateResult.Success(response)
         }
 
-        // TODO - handle error
         return DataStateResult.Error(
-            ResultErrorMessage.StringMessage("not found")
+            ResultErrorMessage.ResourceMessage(R.string.album_not_found)
         )
 
     }

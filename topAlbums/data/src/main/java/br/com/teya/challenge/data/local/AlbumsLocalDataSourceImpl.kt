@@ -1,8 +1,9 @@
 package br.com.teya.challenge.data.local
 
 import br.com.teya.challenge.data.local.database.AlbumsDao
-import br.com.teya.challenge.data.local.mapper.toEntity
-import br.com.teya.challenge.data.model.Album
+import br.com.teya.challenge.data.local.mappers.toEntity
+import br.com.teya.challenge.data.models.mappers.toEntity
+import br.com.teya.challenge.data.models.Album
 
 internal class AlbumsLocalDataSourceImpl(
     private val albumsDao: AlbumsDao,

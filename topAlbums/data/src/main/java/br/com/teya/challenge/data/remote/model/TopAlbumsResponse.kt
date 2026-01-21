@@ -1,4 +1,4 @@
-package br.com.teya.challenge.data.remote.response
+package br.com.teya.challenge.data.remote.model
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -57,37 +57,37 @@ internal data class AlbumIdAttributesResponse(
 )
 
 @JsonClass(generateAdapter = true)
-data class AlbumLabelResponse(
+internal data class AlbumLabelResponse(
     val label: String
 )
 
 @JsonClass(generateAdapter = true)
-data class AlbumReleaseDate(
+internal data class AlbumReleaseDate(
     val attributes: AlbumReleaseAttributes?
 )
 
 @JsonClass(generateAdapter = true)
-data class AlbumReleaseAttributes(
+internal data class AlbumReleaseAttributes(
     val label: String?
 )
 
 @JsonClass(generateAdapter = true)
-data class AlbumCategory(
+internal data class AlbumCategory(
     val attributes: AlbumCategoryAttributes
 )
 
 @JsonClass(generateAdapter = true)
-data class AlbumCategoryAttributes(
+internal data class AlbumCategoryAttributes(
     val label: String,
     val scheme: String?
 )
 
 @JsonClass(generateAdapter = true)
-data class AlbumLink(
+internal data class AlbumLink(
     val attributes: AlbumLinkAttributes?
 )
 
 @JsonClass(generateAdapter = true)
-data class AlbumLinkAttributes(
+internal data class AlbumLinkAttributes(
     val href: String?
 )

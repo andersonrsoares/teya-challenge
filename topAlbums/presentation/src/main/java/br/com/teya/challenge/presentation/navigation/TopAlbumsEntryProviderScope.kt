@@ -17,7 +17,7 @@ internal fun EntryProviderScope<NavKey>.topAlbumsEntryBuilder() {
             viewModel = viewModel
         )
     }
-    entry<TopAlbumsDetailScreen> { entry ->
+    entry<AlbumDetailScreen> { entry ->
         val viewModel = koinViewModel<AlbumDetailViewModel>(
             parameters = { parametersOf(entry.id) }
         )

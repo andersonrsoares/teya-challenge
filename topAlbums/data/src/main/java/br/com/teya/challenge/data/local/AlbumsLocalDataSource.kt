@@ -1,7 +1,7 @@
 package br.com.teya.challenge.data.local
 
 
-import br.com.teya.challenge.data.model.Album
+import br.com.teya.challenge.data.models.Album
 
 interface AlbumsLocalDataSource {
     suspend fun saveAlbums(albums: List<Album>)

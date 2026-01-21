@@ -26,15 +26,16 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.teya.challenge.common.composables.CustomScaffold
 import br.com.teya.challenge.common.composables.ErrorScreen
 import br.com.teya.challenge.common.composables.LoadingScreen
-import br.com.teya.challenge.data.model.Album
 import br.com.teya.challenge.presentation.R
 import br.com.teya.challenge.presentation.viewstate.AlbumViewState
 import coil.compose.AsyncImage
+import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -43,12 +44,13 @@ internal fun TopAlbumsListScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    when  {
+    when {
         state.isLoading -> {
             LoadingScreen(
                 topBar = { TopBar() }
             )
         }
+
         state.isError -> {
             ErrorScreen(
                 topBar = { TopBar() },
@@ -56,6 +58,7 @@ internal fun TopAlbumsListScreen(
                 onRetry = { viewModel.onEvent(TopAlbumsListEvent.OnRetry) }
             )
         }
+
         else -> {
             TopAlbumsListScreen(
                 uiState = state,
@@ -76,9 +79,7 @@ private fun TopAlbumsListScreen(
         topBar = { TopBar() },
     ) { padding ->
         LazyColumn(
-            modifier =
-                Modifier
-                    .padding(padding),
+            modifier = Modifier.padding(padding),
             contentPadding = PaddingValues(horizontal = 12.dp, vertical = 16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
@@ -89,12 +90,11 @@ private fun TopAlbumsListScreen(
                 val item = uiState.topAlbums[index]
                 AlbumCard(
                     album = item,
-                    modifier =
-                        Modifier.clickable(
-                            onClick = {
-                                onEvent(TopAlbumsListEvent.OnNavigateToAlbumDetails(item.id))
-                            },
-                        ),
+                    modifier = Modifier.clickable(
+                        onClick = {
+                            onEvent(TopAlbumsListEvent.OnNavigateToAlbumDetails(item.id))
+                        },
+                    ),
                 )
             }
         }
@@ -104,17 +104,14 @@ private fun TopAlbumsListScreen(
 @Composable
 private fun AlbumCard(
     modifier: Modifier = Modifier,
-    album: AlbumViewState
+    album: AlbumViewState,
 ) {
     Card(
-        modifier =
-            modifier
-                .fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
 
@@ -122,8 +119,7 @@ private fun AlbumCard(
                 AsyncImage(
                     model = it,
                     contentDescription = null,
-                    modifier = Modifier
-                        .size(100.dp),
+                    modifier = Modifier.size(100.dp),
                     contentScale = ContentScale.Crop
                 )
             }
@@ -156,22 +152,52 @@ private fun AlbumCard(
 @Composable
 private fun TopBar() {
     TopAppBar(
-        modifier =
-            Modifier
-                .shadow(
-                    shape = RectangleShape,
-                    elevation = 10.dp,
-                ),
+        modifier = Modifier.shadow(
+            shape = RectangleShape,
+            elevation = 10.dp,
+        ),
         title = {
             Text(
                 text = stringResource(R.string.top_albums_list_title),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
-         },
+        },
         navigationIcon = {},
     )
 }
 
 
-
+@Preview(showBackground = true)
+@Composable
+private fun TopAlbumsListScreenPreview() {
+    MaterialTheme {
+        TopAlbumsListScreen(
+            uiState = TopAlbumsListState(
+                topAlbums = persistentListOf(
+                    AlbumViewState(
+                        id = "1",
+                        name = "Album Name 1",
+                        artist = "Artist Name 1",
+                        releaseDate = "01/01/2024",
+                        category = "Rock",
+                        link = "https://music.apple.com/us/album/sour/1560754",
+                        rights = "Rights Reserved",
+                        image = "https://is1-ssl.mzstatic.com/image/thumb/Music111/v4/b7/21/11/b721118f-4959-1664-50a3-3333a1eb2841/source/170x170bb.jpg"
+                    ),
+                    AlbumViewState(
+                        id = "2",
+                        name = "Album Name 2",
+                        artist = "Artist Name 2",
+                        releaseDate = "02/01/2024",
+                        category = "Pop",
+                        link = "https://music.apple.com/us/album/sour/1560754",
+                        rights = "Rights Reserved",
+                        image = "https://is1-ssl.mzstatic.com/image/thumb/Music111/v4/b7/21/11/b721118f-4959-1664-50a3-3333a1eb2841/source/170x170bb.jpg"
+                    )
+                )
+            ),
+            onEvent = {}
+        )
+    }
+}

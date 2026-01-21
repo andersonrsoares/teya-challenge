@@ -2,7 +2,6 @@ package br.com.teya.challenge.presentation.list
 
 import androidx.compose.runtime.Immutable
 import br.com.teya.challenge.common.composables.UiText
-import br.com.teya.challenge.data.model.Album
 import br.com.teya.challenge.presentation.viewstate.AlbumViewState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf

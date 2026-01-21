@@ -1,11 +1,11 @@
-package br.com.teya.challenge.data.remote
+package br.com.teya.challenge.data.remote.model.mappers
 
-import br.com.teya.challenge.data.model.Album
-import br.com.teya.challenge.data.model.AlbumImage
-import br.com.teya.challenge.data.model.TopAlbumsFeed
-import br.com.teya.challenge.data.remote.response.AlbumEntryResponse
-import br.com.teya.challenge.data.remote.response.AlbumImageResponse
-import br.com.teya.challenge.data.remote.response.TopAlbumsResponse
+import br.com.teya.challenge.data.models.Album
+import br.com.teya.challenge.data.models.AlbumImage
+import br.com.teya.challenge.data.models.TopAlbumsFeed
+import br.com.teya.challenge.data.remote.model.AlbumEntryResponse
+import br.com.teya.challenge.data.remote.model.AlbumImageResponse
+import br.com.teya.challenge.data.remote.model.TopAlbumsResponse
 
 
 internal fun TopAlbumsResponse.toTopAlbums(): TopAlbumsFeed =

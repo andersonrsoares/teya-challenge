@@ -20,6 +20,7 @@ android {
 }
 
 dependencies {
+    api(project(":common"))
     api(project(":network"))
 
     // retrofit
@@ -36,4 +37,8 @@ dependencies {
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
     ksp(libs.room.compiler)
+
+    testImplementation(libs.mockk)
+    testImplementation(libs.coroutines.test)
+    testImplementation(libs.junit)
 }

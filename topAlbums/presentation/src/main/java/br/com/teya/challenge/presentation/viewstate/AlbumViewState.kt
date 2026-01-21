@@ -1,7 +1,7 @@
 package br.com.teya.challenge.presentation.viewstate
 
 import androidx.compose.runtime.Immutable
-import br.com.teya.challenge.data.model.Album
+import br.com.teya.challenge.data.models.Album
 
 @Immutable
 internal data class AlbumViewState(

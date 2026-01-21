@@ -30,6 +30,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.teya.challenge.common.composables.CustomScaffold
@@ -178,12 +179,31 @@ private fun TopBar(
                 )
             }
         },
-        modifier =
-            Modifier
-                .shadow(
-                    shape = RectangleShape,
-                    elevation = 10.dp,
-                ),
+        modifier = Modifier
+            .shadow(
+                shape = RectangleShape,
+                elevation = 10.dp,
+            ),
     )
 }
 
+
+@Preview(showBackground = true)
+@Composable
+private fun AlbumDetailScreenPreview() {
+    MaterialTheme {
+        AlbumDetailScreen(
+            album = AlbumViewState(
+                id = "1",
+                name = "Album Name",
+                artist = "Artist Name",
+                releaseDate = "01/01/2024",
+                category = "Rock",
+                link = "https://music.apple.com/us/album/sour/1560754 Sour",
+                rights = "Rights Reserved",
+                image = "https://is1-ssl.mzstatic.com/image/thumb/Music111/v4/b7/21/11/b721118f-4959-1664-50a3-3333a1eb2841/source/170x170bb.jpg"
+            ),
+            onEvent = {}
+        )
+    }
+}

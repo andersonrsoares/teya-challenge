@@ -1,4 +1,4 @@
-package br.com.teya.challenge.data.model
+package br.com.teya.challenge.data.models
 
 
 data class TopAlbumsFeed(

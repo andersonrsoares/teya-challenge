@@ -1,6 +1,6 @@
 package br.com.teya.challenge.data.remote
 
-import br.com.teya.challenge.data.remote.response.TopAlbumsResponse
+import br.com.teya.challenge.data.remote.model.TopAlbumsResponse
 import retrofit2.http.GET
 
 internal interface TopAlbumsService {

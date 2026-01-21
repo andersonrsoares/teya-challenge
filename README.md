@@ -1,4 +1,5 @@
 # Teya Challenge
+[![Android CI](https://github.com/andersonrsoares/teya-challenge/actions/workflows/android.yml/badge.svg?branch=main)](https://github.com/andersonrsoares/teya-challenge/actions/workflows/android.yml)
 
 This is an Android application that displays a list of the top albums from the iTunes Store.
 

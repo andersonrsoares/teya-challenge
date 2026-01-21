@@ -21,7 +21,7 @@ class RemoteResultCallAdapterFactory : CallAdapter.Factory() {
 
         // check first that the return type is `ParameterizedType`
         check(returnType is ParameterizedType) {
-            "return type must be parameterized as Call<NetworkResponse<<Foo>> or Call<NetworkResponse<out Foo>>"
+            "return type must be parameterized as Call<Result<<Foo>> or Call<Result<out Foo>>"
         }
 
         // get the response type inside the `Call` type

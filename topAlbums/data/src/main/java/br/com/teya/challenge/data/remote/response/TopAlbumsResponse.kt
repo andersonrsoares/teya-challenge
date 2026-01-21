@@ -15,10 +15,14 @@ internal data class FeedResponse(
 
 @JsonClass(generateAdapter = true)
 internal data class AlbumEntryResponse(
-    @param:Json(name = "im:name") val name: AlbumNameResponse,
+    val id: AlbumIdResponse,
+    @param:Json(name = "im:name") val name: AlbumLabelResponse,
     @param:Json(name = "im:image") val images: List<AlbumImageResponse>,
-    @param:Json(name = "im:artist") val artist: AlbumArtistResponse,
-    val id: AlbumIdResponse
+    @param:Json(name = "im:artist") val artist: AlbumLabelResponse,
+    @param:Json(name = "im:releaseDate") val releaseDate: AlbumReleaseDate?,
+    val category: AlbumCategory,
+    val rights: AlbumLabelResponse?,
+    val link: AlbumLink?,
 )
 
 @JsonClass(generateAdapter = true)
@@ -50,4 +54,40 @@ internal data class AlbumIdResponse(
 @JsonClass(generateAdapter = true)
 internal data class AlbumIdAttributesResponse(
     @param:Json(name = "im:id") val id: String
+)
+
+@JsonClass(generateAdapter = true)
+data class AlbumLabelResponse(
+    val label: String
+)
+
+@JsonClass(generateAdapter = true)
+data class AlbumReleaseDate(
+    val attributes: AlbumReleaseAttributes?
+)
+
+@JsonClass(generateAdapter = true)
+data class AlbumReleaseAttributes(
+    val label: String?
+)
+
+@JsonClass(generateAdapter = true)
+data class AlbumCategory(
+    val attributes: AlbumCategoryAttributes
+)
+
+@JsonClass(generateAdapter = true)
+data class AlbumCategoryAttributes(
+    val label: String,
+    val scheme: String?
+)
+
+@JsonClass(generateAdapter = true)
+data class AlbumLink(
+    val attributes: AlbumLinkAttributes?
+)
+
+@JsonClass(generateAdapter = true)
+data class AlbumLinkAttributes(
+    val href: String?
 )

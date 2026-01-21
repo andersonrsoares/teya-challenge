@@ -1,48 +1,51 @@
-package br.com.teya.challenge.presentation.list
+package br.com.teya.challenge.presentation.detail
 
+import br.com.teya.challenge.common.navigation.ExternalNavigator
 import br.com.teya.challenge.common.navigation.Navigator
 import br.com.teya.challenge.common.result.fold
 import br.com.teya.challenge.common.result.toUiText
 import br.com.teya.challenge.common.viewmodel.EventViewModel
-import br.com.teya.challenge.domain.TopAlbumsRepository
-import br.com.teya.challenge.presentation.navigation.TopAlbumsDetailScreen
+import br.com.teya.challenge.domain.AlbumRepository
 import br.com.teya.challenge.presentation.viewstate.toViewState
-import kotlinx.collections.immutable.toPersistentList
 
-internal class TopAlbumsListViewModel(
-    stateProducer: TopAlbumsListStateProducer,
+internal class AlbumDetailViewModel(
+    stateProducer: AlbumDetailStateProducer,
     private val navigator: Navigator,
-    private val repository: TopAlbumsRepository,
-): EventViewModel<TopAlbumsListState, TopAlbumsListEvent>(
+    private val externalNavigator: ExternalNavigator,
+    private val repository: AlbumRepository,
+    private val albumId: String,
+): EventViewModel<AlbumDetailState, AlbumDetailEvent>(
      stateProducer = stateProducer,
 ) {
 
     init {
-        onEvent(TopAlbumsListEvent.OnInit)
+        onEvent(AlbumDetailEvent.OnInit)
     }
 
-    override suspend fun onCollect(event: TopAlbumsListEvent) {
+    override suspend fun onCollect(event: AlbumDetailEvent) {
         when (event) {
-            is TopAlbumsListEvent.OnInit,
-               TopAlbumsListEvent.OnRetry -> {
-                loadTopAlbums()
+            is AlbumDetailEvent.OnInit -> {
+                loadAlbum()
             }
-            is TopAlbumsListEvent.OnNavigateToAlbumDetails -> {
-                navigator.navigateTo(TopAlbumsDetailScreen(event.albumId))
+            is AlbumDetailEvent.OnNavigateBack -> {
+                navigator.navigateBack()
+            }
+            is AlbumDetailEvent.OpenAppleStoreLink -> {
+                externalNavigator.navigateToUrl(event.url)
             }
         }
     }
 
-    private suspend fun loadTopAlbums() {
+    private suspend fun loadAlbum() {
         editState {
             copy(isLoading = true, isError = false)
         }
-        val albums = repository.fetchTopAlbums()
+        val albums = repository.fetchAlbum(albumId)
         albums.fold(
             onSuccess = {
                 editState {
                     copy(
-                        topAlbums = it.albums.map { album -> album.toViewState() }.toPersistentList() ,
+                        album = it.toViewState(),
                         isLoading = false,
                         isError = false,
                     )

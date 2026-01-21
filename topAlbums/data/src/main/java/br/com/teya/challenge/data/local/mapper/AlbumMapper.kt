@@ -2,35 +2,41 @@ package br.com.teya.challenge.data.local.mapper
 
 import br.com.teya.challenge.data.local.database.entities.AlbumEntity
 import br.com.teya.challenge.data.local.database.entities.AlbumImageEntity
-import br.com.teya.challenge.data.model.AlbumEntry
+import br.com.teya.challenge.data.model.Album
 import br.com.teya.challenge.data.model.AlbumImage
-import br.com.teya.challenge.data.model.ImageAttributes
 
-fun AlbumEntry.toEntity(): AlbumEntity {
-    val selectedImage = this.images.lastOrNull()
+fun Album.toEntity(): AlbumEntity {
     return AlbumEntity(
-        name = name,
-        artist = artist,
-        id = id,
-        image = AlbumImageEntity(
-            label = selectedImage?.label.orEmpty(),
-            height = selectedImage?.attributes?.height.orEmpty(),
-        )
+        id = this.id,
+        name = this.name,
+        artist = this.artist,
+        releaseDate = this.releaseDate,
+        category = this.category,
+        link = this.link,
+        rights = this.rights,
+        image = this.image?.let {
+            AlbumImageEntity(
+                label = it.label,
+                height = it.height,
+            )
+        }
     )
 }
 
-fun AlbumEntity.toEntity(): AlbumEntry {
-    return AlbumEntry(
+fun AlbumEntity.toEntity(): Album {
+    return Album(
+        id = this.id,
         name = this.name,
         artist = this.artist,
-        id = this.id,
-        images = listOf(
+        releaseDate = this.releaseDate,
+        category = this.category,
+        link = this.link,
+        rights = this.rights,
+        image = this.image?.let {
             AlbumImage(
-                label = this.image.label,
-                attributes = ImageAttributes(
-                    height = this.image.height
-                )
+                label = it.label,
+                height = it.height,
             )
-        )
+        }
     )
 }

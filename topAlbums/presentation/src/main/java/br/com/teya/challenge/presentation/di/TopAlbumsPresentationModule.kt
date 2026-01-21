@@ -1,9 +1,9 @@
 package br.com.teya.challenge.presentation.di
 
 import br.com.teya.challenge.common.state.StateProducerDelegate
-import br.com.teya.challenge.presentation.detail.TopAlbumsDetailState
-import br.com.teya.challenge.presentation.detail.TopAlbumsDetailStateProducer
-import br.com.teya.challenge.presentation.detail.TopAlbumsDetailViewModel
+import br.com.teya.challenge.presentation.detail.AlbumDetailState
+import br.com.teya.challenge.presentation.detail.AlbumDetailStateProducer
+import br.com.teya.challenge.presentation.detail.AlbumDetailViewModel
 import br.com.teya.challenge.presentation.list.TopAlbumsListState
 import br.com.teya.challenge.presentation.list.TopAlbumsListStateProducer
 import br.com.teya.challenge.presentation.list.TopAlbumsListViewModel
@@ -36,17 +36,18 @@ internal val TopAlbumsPresentationModule = module {
 
     viewModelScope {
         viewModel { params ->
-            TopAlbumsDetailViewModel(
-                stateProducer = get<TopAlbumsDetailStateProducer>(),
+            AlbumDetailViewModel(
+                stateProducer = get<AlbumDetailStateProducer>(),
                 navigator = get(),
                 repository = get(),
+                externalNavigator = get(),
                 albumId = params.get()
             )
         }
         scoped {
-            TopAlbumsDetailStateProducer(
+            AlbumDetailStateProducer(
                 producer = StateProducerDelegate(
-                    initialState = TopAlbumsDetailState(),
+                    initialState = AlbumDetailState(),
                     dispatcher = Dispatchers.Main.immediate
                 )
             )

@@ -58,6 +58,7 @@ private fun TopAlbumsListScreen(
     onEvent: (TopAlbumsListEvent) -> Unit,
 ) {
     StateScreen(
+        topBar = { TopBar() },
         isLoading = uiState.isLoading,
         isError = uiState.isError,
         onError = {

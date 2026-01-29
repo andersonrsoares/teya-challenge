@@ -59,6 +59,7 @@ private fun AlbumDetailScreen(
     onEvent: (AlbumDetailEvent) -> Unit,
 ) {
     StateScreen(
+        topBar = { TopBar(onEvent) },
         isLoading = state.isLoading,
         isError = state.isError,
         onError = {

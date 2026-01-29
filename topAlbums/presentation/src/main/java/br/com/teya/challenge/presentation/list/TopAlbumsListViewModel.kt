@@ -38,7 +38,6 @@ internal class TopAlbumsListViewModel(
         editState {
             copy(isLoading = true, isError = false)
         }
-        delay(10000)
         val albums = repository.fetchTopAlbums()
         albums.fold(
             onSuccess = {

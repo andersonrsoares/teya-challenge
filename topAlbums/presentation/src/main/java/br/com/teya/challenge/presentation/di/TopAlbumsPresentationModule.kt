@@ -7,14 +7,13 @@ import br.com.teya.challenge.presentation.detail.AlbumDetailViewModel
 import br.com.teya.challenge.presentation.list.TopAlbumsListState
 import br.com.teya.challenge.presentation.list.TopAlbumsListStateProducer
 import br.com.teya.challenge.presentation.list.TopAlbumsListViewModel
-import kotlinx.coroutines.Dispatchers
 import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 import org.koin.viewmodel.scope.viewModelScope
 
 @OptIn(KoinExperimentalAPI::class)
-internal val TopAlbumsPresentationModule = module {
+val TopAlbumsPresentationModule = module {
 
     viewModelScope {
         viewModel {
@@ -28,7 +27,6 @@ internal val TopAlbumsPresentationModule = module {
             TopAlbumsListStateProducer(
                 producer = StateProducerDelegate(
                     initialState = TopAlbumsListState(),
-                    dispatcher = Dispatchers.Main.immediate
                 )
             )
         }
@@ -48,7 +46,6 @@ internal val TopAlbumsPresentationModule = module {
             AlbumDetailStateProducer(
                 producer = StateProducerDelegate(
                     initialState = AlbumDetailState(),
-                    dispatcher = Dispatchers.Main.immediate
                 )
             )
         }

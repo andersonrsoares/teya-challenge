@@ -4,10 +4,10 @@ import app.cash.turbine.test
 import br.com.teya.challenge.common.navigation.Navigator
 import br.com.teya.challenge.common.result.DataStateResult
 import br.com.teya.challenge.common.state.StateProducerDelegate
-import br.com.teya.challenge.data.models.Album
-import br.com.teya.challenge.data.models.AlbumImage
-import br.com.teya.challenge.data.models.TopAlbumsFeed
-import br.com.teya.challenge.domain.TopAlbumsRepository
+import br.com.teya.challenge.topAlbums.domain.models.Album
+import br.com.teya.challenge.topAlbums.domain.models.AlbumImage
+import br.com.teya.challenge.topAlbums.domain.models.TopAlbumsFeed
+import br.com.teya.challenge.topAlbums.domain.repositories.TopAlbumsRepository
 import br.com.teya.challenge.presentation.list.TopAlbumsListEvent
 import br.com.teya.challenge.presentation.list.TopAlbumsListState
 import br.com.teya.challenge.presentation.list.TopAlbumsListStateProducer
@@ -37,7 +37,7 @@ class TopAlbumsListViewModelTest {
     val standardTestDispatcher = StandardTestDispatcher()
     private val stateProducerDelegate = StateProducerDelegate(
         initialState =  TopAlbumsListState(),
-        dispatcher = standardTestDispatcher
+
     )
     private val stateProducer: TopAlbumsListStateProducer = TopAlbumsListStateProducer(stateProducerDelegate)
     private val navigator: Navigator = mockk(relaxed = true)
@@ -67,7 +67,6 @@ class TopAlbumsListViewModelTest {
 
         viewModel.state.test {
             assertEquals(TopAlbumsListState(isLoading = false), awaitItem())
-            viewModel.onEvent(TopAlbumsListEvent.OnInit)
             assertEquals(TopAlbumsListState(isLoading = true), awaitItem())
             assertEquals(expectedState, awaitItem())
         }

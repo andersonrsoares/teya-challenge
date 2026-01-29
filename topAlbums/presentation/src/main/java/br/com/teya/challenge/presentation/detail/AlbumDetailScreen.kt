@@ -33,9 +33,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import br.com.teya.challenge.common.composables.CustomScaffold
-import br.com.teya.challenge.common.composables.ErrorScreen
-import br.com.teya.challenge.common.composables.LoadingScreen
+import br.com.teya.challenge.common.composables.Error
+import br.com.teya.challenge.common.composables.Loading
+import br.com.teya.challenge.common.composables.StateScreen
 import br.com.teya.challenge.presentation.R
 import br.com.teya.challenge.presentation.viewstate.AlbumViewState
 import coil.compose.AsyncImage
@@ -47,104 +47,103 @@ internal fun AlbumDetailScreen(
     val state by viewModel.state.collectAsStateWithLifecycle()
 
 
-    when  {
-        state.isLoading -> {
-            LoadingScreen(
-                topBar = { TopBar(viewModel::onEvent) }
-            )
-        }
-        state.isError -> {
-            ErrorScreen(
-                topBar = { TopBar(viewModel::onEvent) },
-                error = state.error!!
-            )
-        }
-        else -> {
-            AlbumDetailScreen(
-                album = state.album!!,
-                onEvent = viewModel::onEvent
-            )
-        }
-    }
+    AlbumDetailScreen(
+        state = state,
+        onEvent = viewModel::onEvent
+    )
 }
 
 @Composable
 private fun AlbumDetailScreen(
-    album: AlbumViewState,
+    state: AlbumDetailState,
     onEvent: (AlbumDetailEvent) -> Unit,
 ) {
-    CustomScaffold(
-        topBar = { TopBar(onEvent) }
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .padding(paddingValues)
-                .verticalScroll(rememberScrollState())
-                .fillMaxSize()
-        ) {
-            Column(modifier = Modifier.padding(16.dp)) {
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(12.dp),
-                ) {
-                    album.image?.let {
-                        AsyncImage(
-                            model = it,
-                            contentDescription = null,
-                            modifier = Modifier
-                                .size(100.dp),
-                            contentScale = ContentScale.Crop
-                        )
-                    }
-
-                    Text(
-                        text = album.name,
-                        style = MaterialTheme.typography.headlineMedium,
-                    )
-                }
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Text(
-                    text = album.artist,
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.primary
+    StateScreen(
+        topBar = { TopBar(onEvent) },
+        isLoading = state.isLoading,
+        isError = state.isError,
+        onError = {
+            state.error?.let { error ->
+                Error(
+                    error = error,
                 )
+            }
+        },
+        onLoading = {
+            Loading()
+        },
+        content = {
+            state.album?.let { album ->
+                Column(
+                    modifier = Modifier
+                        .verticalScroll(rememberScrollState())
+                        .fillMaxSize()
+                ) {
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(12.dp),
+                        ) {
+                            album.image?.let {
+                                AsyncImage(
+                                    model = it,
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .size(100.dp),
+                                    contentScale = ContentScale.Crop
+                                )
+                            }
 
-                HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
+                            Text(
+                                text = album.name,
+                                style = MaterialTheme.typography.headlineMedium,
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(16.dp))
 
-                InfoRow(label = stringResource( R.string.top_albums_detail_genre), value = album.category)
-                album.releaseDate?.let {
-                    InfoRow(label = stringResource( R.string.top_albums_detail_release_date), value = it)
+                        Text(
+                            text = album.artist,
+                            style = MaterialTheme.typography.titleLarge,
+                            color = MaterialTheme.colorScheme.primary
+                        )
 
-                }
+                        HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
 
-                Spacer(modifier = Modifier.height(24.dp))
+                        InfoRow(label = stringResource( R.string.top_albums_detail_genre), value = album.category)
+                        album.releaseDate?.let {
+                            InfoRow(label = stringResource( R.string.top_albums_detail_release_date), value = it)
 
-                album.link?.let {
-                    Button(
-                        modifier = Modifier.fillMaxWidth(),
-                        onClick = {
-                            onEvent(AlbumDetailEvent.OpenAppleStoreLink(it))
-                        },
-                    ) {
-                        Text(stringResource(R.string.top_albums_detail_link_title))
+                        }
+
+                        Spacer(modifier = Modifier.height(24.dp))
+
+                        album.link?.let {
+                            Button(
+                                modifier = Modifier.fillMaxWidth(),
+                                onClick = {
+                                    onEvent(AlbumDetailEvent.OpenAppleStoreLink(it))
+                                },
+                            ) {
+                                Text(stringResource(R.string.top_albums_detail_link_title))
+                            }
+                            Spacer(modifier = Modifier.height(24.dp))
+                        }
+
+
+                        album.rights?.let {
+                            Text(
+                                text = it,
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.outline,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        }
+
                     }
-                    Spacer(modifier = Modifier.height(24.dp))
                 }
-
-
-                album.rights?.let {
-                    Text(
-                        text = it,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.outline,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                }
-
             }
         }
-    }
+    )
 }
 
 @Composable
@@ -193,15 +192,17 @@ private fun TopBar(
 private fun AlbumDetailScreenPreview() {
     MaterialTheme {
         AlbumDetailScreen(
-            album = AlbumViewState(
-                id = "1",
-                name = "Album Name",
-                artist = "Artist Name",
-                releaseDate = "01/01/2024",
-                category = "Rock",
-                link = "https://music.apple.com/us/album/sour/1560754 Sour",
-                rights = "Rights Reserved",
-                image = "https://is1-ssl.mzstatic.com/image/thumb/Music111/v4/b7/21/11/b721118f-4959-1664-50a3-3333a1eb2841/source/170x170bb.jpg"
+            state = AlbumDetailState(
+                album =  AlbumViewState(
+                    id = "1",
+                    name = "Album Name",
+                    artist = "Artist Name",
+                    releaseDate = "01/01/2024",
+                    category = "Rock",
+                    link = "https://music.apple.com/us/album/sour/1560754 Sour",
+                    rights = "Rights Reserved",
+                    image = "https://is1-ssl.mzstatic.com/image/thumb/Music111/v4/b7/21/11/b721118f-4959-1664-50a3-3333a1eb2841/source/170x170bb.jpg"
+                )
             ),
             onEvent = {}
         )

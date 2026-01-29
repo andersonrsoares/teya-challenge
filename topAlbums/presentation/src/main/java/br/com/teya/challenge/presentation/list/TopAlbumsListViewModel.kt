@@ -4,7 +4,7 @@ import br.com.teya.challenge.common.navigation.Navigator
 import br.com.teya.challenge.common.result.fold
 import br.com.teya.challenge.common.result.toUiText
 import br.com.teya.challenge.common.viewmodel.EventViewModel
-import br.com.teya.challenge.domain.TopAlbumsRepository
+import br.com.teya.challenge.topAlbums.domain.repositories.TopAlbumsRepository
 import br.com.teya.challenge.presentation.navigation.AlbumDetailScreen
 import br.com.teya.challenge.presentation.viewstate.toViewState
 import kotlinx.collections.immutable.toPersistentList

@@ -5,7 +5,7 @@ import br.com.teya.challenge.common.navigation.Navigator
 import br.com.teya.challenge.common.result.fold
 import br.com.teya.challenge.common.result.toUiText
 import br.com.teya.challenge.common.viewmodel.EventViewModel
-import br.com.teya.challenge.domain.AlbumRepository
+import br.com.teya.challenge.topAlbums.domain.repositories.AlbumRepository
 import br.com.teya.challenge.presentation.viewstate.toViewState
 
 internal class AlbumDetailViewModel(

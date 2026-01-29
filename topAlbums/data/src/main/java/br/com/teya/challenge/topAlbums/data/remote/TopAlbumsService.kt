@@ -1,0 +1,10 @@
+package br.com.teya.challenge.topAlbums.data.remote
+
+import br.com.teya.challenge.topAlbums.data.remote.model.TopAlbumsResponse
+import retrofit2.http.GET
+
+internal interface TopAlbumsService {
+
+    @GET("topalbums/limit=100/json")
+    suspend fun topAlbums(): Result<TopAlbumsResponse>
+}

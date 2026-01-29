@@ -16,13 +16,12 @@ interface StateProducer<T> {
 
 class StateProducerDelegate<T>(
     initialState: T,
-    val dispatcher: CoroutineDispatcher,
 ) : StateProducer<T> {
 
     private val _state = MutableStateFlow(initialState)
     override val state: StateFlow<T> = _state.asStateFlow()
 
-    override suspend fun editState(newState: T.() -> T) = withContext(dispatcher) {
+    override suspend fun editState(newState: T.() -> T) {
         _state.update(newState)
     }
 }

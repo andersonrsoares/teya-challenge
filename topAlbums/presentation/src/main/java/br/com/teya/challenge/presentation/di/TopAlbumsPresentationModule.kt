@@ -28,7 +28,6 @@ internal val TopAlbumsPresentationModule = module {
             TopAlbumsListStateProducer(
                 producer = StateProducerDelegate(
                     initialState = TopAlbumsListState(),
-                    dispatcher = Dispatchers.Main.immediate
                 )
             )
         }
@@ -48,7 +47,6 @@ internal val TopAlbumsPresentationModule = module {
             AlbumDetailStateProducer(
                 producer = StateProducerDelegate(
                     initialState = AlbumDetailState(),
-                    dispatcher = Dispatchers.Main.immediate
                 )
             )
         }

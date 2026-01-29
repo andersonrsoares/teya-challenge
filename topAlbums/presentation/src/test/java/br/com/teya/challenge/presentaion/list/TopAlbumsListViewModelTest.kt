@@ -67,7 +67,6 @@ class TopAlbumsListViewModelTest {
 
         viewModel.state.test {
             assertEquals(TopAlbumsListState(isLoading = false), awaitItem())
-            viewModel.onEvent(TopAlbumsListEvent.OnInit)
             assertEquals(TopAlbumsListState(isLoading = true), awaitItem())
             assertEquals(expectedState, awaitItem())
         }

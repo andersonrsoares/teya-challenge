@@ -3,6 +3,7 @@ package br.com.teya.challenge.common.composables
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -19,42 +20,36 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import br.com.teya.challenge.common.R
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ErrorScreen(
+fun Error(
     error: UiText,
-    topBar: @Composable () -> Unit = {},
+    modifier: Modifier = Modifier,
     onRetry: (() -> Unit)? = null,
 ) {
-    Scaffold(
-        topBar = topBar,
-    ) { padding ->
-        Box(
-            modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(padding)
-                    .padding(20.dp),
-            contentAlignment = Alignment.Center,
+    Box(
+        modifier =
+            modifier
+                .fillMaxSize()
+                .padding(20.dp),
+        contentAlignment = Alignment.Center,
+    ) {
+        Column(
+            verticalArrangement = Arrangement.spacedBy(24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(24.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                Text(
-                    text = error.asString(),
-                    style = MaterialTheme.typography.bodyLarge,
-                    textAlign = TextAlign.Center,
-                )
-                onRetry?.let {
-                    Button(
-                        onClick = onRetry,
-                    ) {
-                        Text(
-                            text = stringResource(R.string.retry_button),
-                        )
-                    }
+            Text(
+                text = error.asString(),
+                style = MaterialTheme.typography.bodyLarge,
+                textAlign = TextAlign.Center,
+            )
+            onRetry?.let {
+                Button(
+                    onClick = onRetry,
+                ) {
+                    Text(
+                        text = stringResource(R.string.retry_button),
+                    )
                 }
             }
         }

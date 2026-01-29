@@ -8,6 +8,7 @@ import br.com.teya.challenge.domain.TopAlbumsRepository
 import br.com.teya.challenge.presentation.navigation.AlbumDetailScreen
 import br.com.teya.challenge.presentation.viewstate.toViewState
 import kotlinx.collections.immutable.toPersistentList
+import kotlinx.coroutines.delay
 
 internal class TopAlbumsListViewModel(
     stateProducer: TopAlbumsListStateProducer,
@@ -37,6 +38,7 @@ internal class TopAlbumsListViewModel(
         editState {
             copy(isLoading = true, isError = false)
         }
+        delay(10000)
         val albums = repository.fetchTopAlbums()
         albums.fold(
             onSuccess = {

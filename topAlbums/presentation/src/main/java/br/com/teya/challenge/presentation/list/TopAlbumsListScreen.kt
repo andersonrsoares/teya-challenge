@@ -30,8 +30,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.teya.challenge.common.composables.CustomScaffold
-import br.com.teya.challenge.common.composables.ErrorScreen
-import br.com.teya.challenge.common.composables.LoadingScreen
+import br.com.teya.challenge.common.composables.Error
+import br.com.teya.challenge.common.composables.Loading
+import br.com.teya.challenge.common.composables.StateScreen
 import br.com.teya.challenge.presentation.R
 import br.com.teya.challenge.presentation.viewstate.AlbumViewState
 import coil.compose.AsyncImage
@@ -44,29 +45,10 @@ internal fun TopAlbumsListScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    when {
-        state.isLoading -> {
-            LoadingScreen(
-                topBar = { TopBar() }
-            )
-        }
-
-        state.isError -> {
-            ErrorScreen(
-                topBar = { TopBar() },
-                error = state.error!!,
-                onRetry = { viewModel.onEvent(TopAlbumsListEvent.OnRetry) }
-            )
-        }
-
-        else -> {
-            TopAlbumsListScreen(
-                uiState = state,
-                onEvent = viewModel::onEvent
-            )
-        }
-    }
-
+    TopAlbumsListScreen(
+        uiState = state,
+        onEvent = viewModel::onEvent
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -75,30 +57,43 @@ private fun TopAlbumsListScreen(
     uiState: TopAlbumsListState,
     onEvent: (TopAlbumsListEvent) -> Unit,
 ) {
-    CustomScaffold(
-        topBar = { TopBar() },
-    ) { padding ->
-        LazyColumn(
-            modifier = Modifier.padding(padding),
-            contentPadding = PaddingValues(horizontal = 12.dp, vertical = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-        ) {
-            items(
-                count = uiState.topAlbums.size,
-                key = { index -> uiState.topAlbums[index].id },
-            ) { index ->
-                val item = uiState.topAlbums[index]
-                AlbumCard(
-                    album = item,
-                    modifier = Modifier.clickable(
-                        onClick = {
-                            onEvent(TopAlbumsListEvent.OnNavigateToAlbumDetails(item.id))
-                        },
-                    ),
+    StateScreen(
+        isLoading = uiState.isLoading,
+        isError = uiState.isError,
+        onError = {
+            uiState.error?.let { error ->
+                Error(
+                    error = error,
+                    onRetry = {
+                        onEvent(TopAlbumsListEvent.OnRetry)
+                    }
                 )
             }
+        },
+        onLoading = { Loading() },
+        content = {
+            LazyColumn(
+                modifier = Modifier.fillMaxWidth(),
+                contentPadding = PaddingValues(horizontal = 12.dp, vertical = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+            ) {
+                items(
+                    count = uiState.topAlbums.size,
+                    key = { index -> uiState.topAlbums[index].id },
+                ) { index ->
+                    val item = uiState.topAlbums[index]
+                    AlbumCard(
+                        album = item,
+                        modifier = Modifier.clickable(
+                            onClick = {
+                                onEvent(TopAlbumsListEvent.OnNavigateToAlbumDetails(item.id))
+                            },
+                        ),
+                    )
+                }
+            }
         }
-    }
+    )
 }
 
 @Composable

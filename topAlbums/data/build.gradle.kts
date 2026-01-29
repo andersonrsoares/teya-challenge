@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "br.com.teya.top.albums.data"
+    namespace = "br.com.teya.topAlbums.data"
     compileSdk {
         version = release(36)
     }
@@ -22,6 +22,7 @@ android {
 dependencies {
     api(project(":common"))
     api(project(":network"))
+    implementation(project(":topAlbums:domain"))
 
     // retrofit
     implementation(libs.retrofit.core)

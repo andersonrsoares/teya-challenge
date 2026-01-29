@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "br.com.teya.challenge.top.albums.domain"
+    namespace = "br.com.teya.challenge.topAlbums.domain"
     compileSdk {
         version = release(36)
     }
@@ -19,7 +19,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":topAlbums:data"))
     implementation(project(":common"))
 
     // Coroutines

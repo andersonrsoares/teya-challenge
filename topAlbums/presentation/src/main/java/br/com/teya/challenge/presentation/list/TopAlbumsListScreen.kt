@@ -35,12 +35,12 @@ import br.com.teya.challenge.presentation.R
 import br.com.teya.challenge.presentation.viewstate.AlbumViewState
 import coil.compose.AsyncImage
 import kotlinx.collections.immutable.persistentListOf
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-internal fun TopAlbumsListScreen(
-    viewModel: TopAlbumsListViewModel,
-) {
+internal fun TopAlbumsListScreen() {
+    val viewModel = koinViewModel<TopAlbumsListViewModel>()
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     TopAlbumsListScreen(

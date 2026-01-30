@@ -39,11 +39,16 @@ import br.com.teya.challenge.common.composables.StateScreen
 import br.com.teya.challenge.presentation.R
 import br.com.teya.challenge.presentation.viewstate.AlbumViewState
 import coil.compose.AsyncImage
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
 internal fun AlbumDetailScreen(
-    viewModel: AlbumDetailViewModel,
+    albumId: String,
 ) {
+    val viewModel = koinViewModel<AlbumDetailViewModel>(
+        parameters = { parametersOf(albumId) }
+    )
     val state by viewModel.state.collectAsStateWithLifecycle()
 
 

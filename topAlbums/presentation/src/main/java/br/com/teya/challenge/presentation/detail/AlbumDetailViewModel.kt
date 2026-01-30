@@ -1,6 +1,5 @@
 package br.com.teya.challenge.presentation.detail
 
-import br.com.teya.challenge.common.event.EventCollector
 import br.com.teya.challenge.common.event.EventStateContext
 import br.com.teya.challenge.common.navigation.ExternalNavigator
 import br.com.teya.challenge.common.navigation.Navigator

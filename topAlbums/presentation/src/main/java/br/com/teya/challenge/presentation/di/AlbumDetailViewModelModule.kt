@@ -1,6 +1,5 @@
 package br.com.teya.challenge.presentation.di
 
-import br.com.teya.challenge.common.di.ViewModelCoroutineScope
 import br.com.teya.challenge.common.di.eventCoroutineScope
 import br.com.teya.challenge.common.event.EventConsumer
 import br.com.teya.challenge.common.event.EventCoroutineScopeDelegate
@@ -49,12 +48,6 @@ internal val AlbumDetailViewModelModule = module {
                 producer = StateProducerDelegate(
                     initialState = AlbumDetailState(),
                 )
-            )
-        }
-
-        scoped(AlbumDetailQualifier.EventCoroutineScope.qualifier) {
-            EventCoroutineScopeDelegate(
-                scope = get(ViewModelCoroutineScope.Qualifier)
             )
         }
 

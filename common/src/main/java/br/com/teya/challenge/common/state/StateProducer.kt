@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.update
 interface StateProducer<T>: StateConsumer<T>  {
     override val state: StateFlow<T>
 
-    suspend fun editState(newState: T.() -> T)
+    fun editState(newState: T.() -> T)
 }
 
 class StateProducerDelegate<T>(
@@ -18,7 +18,7 @@ class StateProducerDelegate<T>(
     private val _state = MutableStateFlow(initialState)
     override val state: StateFlow<T> = _state.asStateFlow()
 
-    override suspend fun editState(newState: T.() -> T) {
+    override fun editState(newState: T.() -> T) {
         _state.update(newState)
     }
 }

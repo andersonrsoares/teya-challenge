@@ -11,6 +11,11 @@ import br.com.teya.challenge.presentation.detail.AlbumDetailEvent
 import br.com.teya.challenge.presentation.detail.AlbumDetailState
 import br.com.teya.challenge.presentation.detail.AlbumDetailStateProducer
 import br.com.teya.challenge.presentation.detail.AlbumDetailViewModel
+import br.com.teya.challenge.presentation.detail.handlers.AlbumDetailEventHandlerHolder
+import br.com.teya.challenge.presentation.detail.handlers.OnInitAlbumDetailEventHandler
+import br.com.teya.challenge.presentation.list.TopAlbumsListStateProducer
+import br.com.teya.challenge.presentation.list.handlers.OnInitTopAlbumsListEventHandler
+import br.com.teya.challenge.presentation.list.handlers.TopAlbumsListEventHandlerHolder
 import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.qualifier.Qualifier
@@ -38,7 +43,7 @@ internal val AlbumDetailViewModelModule = module {
                 eventStateContext = get(AlbumDetailQualifier.EventContext.qualifier),
                 externalNavigator = get(),
                 navigator = get(),
-                repository = get(),
+                eventHandlerHolder = get(),
                 albumId = params.get()
             )
         }
@@ -71,6 +76,19 @@ internal val AlbumDetailViewModelModule = module {
                 eventDispatcher = get(AlbumDetailQualifier.EventDispatcher.qualifier),
                 eventConsumer = get(AlbumDetailQualifier.EventConsumer.qualifier),
                 eventCoroutineScope = get(AlbumDetailQualifier.EventCoroutineScope.qualifier)
+            )
+        }
+
+        scoped<OnInitAlbumDetailEventHandler> {
+            OnInitAlbumDetailEventHandler(
+                stateProducer = get<AlbumDetailStateProducer>(),
+                repository = get()
+            )
+        }
+
+        scoped<AlbumDetailEventHandlerHolder> {
+            AlbumDetailEventHandlerHolder(
+                onInit = get(),
             )
         }
     }

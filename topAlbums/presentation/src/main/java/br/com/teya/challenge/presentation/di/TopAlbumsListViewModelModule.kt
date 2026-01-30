@@ -5,7 +5,6 @@ import br.com.teya.challenge.common.event.EventConsumer
 import br.com.teya.challenge.common.event.EventDispatcher
 import br.com.teya.challenge.common.event.EventDispatcherDelegate
 import br.com.teya.challenge.common.event.EventStateContext
-import br.com.teya.challenge.common.state.StateProducer
 import br.com.teya.challenge.common.state.StateProducerDelegate
 import br.com.teya.challenge.presentation.list.TopAlbumsListEvent
 import br.com.teya.challenge.presentation.list.TopAlbumsListState
@@ -91,8 +90,8 @@ internal val TopAlbumsListViewModelModule = module {
 
         scoped<TopAlbumsListEventHandlerHolder> {
             TopAlbumsListEventHandlerHolder(
-                onInitTopAlbumsListEventHandler = get(),
-                onRetryTopAlbumsListEventHandler = get(),
+                onInit = get(),
+                onRetry = get(),
             )
         }
     }

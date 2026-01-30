@@ -2,14 +2,9 @@ package br.com.teya.challenge.presentation.list
 
 import br.com.teya.challenge.common.event.EventStateContext
 import br.com.teya.challenge.common.navigation.Navigator
-import br.com.teya.challenge.common.result.fold
-import br.com.teya.challenge.common.result.toUiText
 import br.com.teya.challenge.common.viewmodel.EventViewModel
 import br.com.teya.challenge.presentation.list.handlers.TopAlbumsListEventHandlerHolder
-import br.com.teya.challenge.topAlbums.domain.repositories.TopAlbumsRepository
 import br.com.teya.challenge.presentation.navigation.AlbumDetailScreen
-import br.com.teya.challenge.presentation.viewstate.toViewState
-import kotlinx.collections.immutable.toPersistentList
 
 internal class TopAlbumsListViewModel(
     private val navigator: Navigator,
@@ -23,8 +18,8 @@ internal class TopAlbumsListViewModel(
 
     override suspend fun onCollect(event: TopAlbumsListEvent) {
         when (event) {
-            is TopAlbumsListEvent.OnInit -> eventHandlerHolder.onInitTopAlbumsListEventHandler.process(event)
-            is TopAlbumsListEvent.OnRetry -> eventHandlerHolder.onRetryTopAlbumsListEventHandler.process(event)
+            is TopAlbumsListEvent.OnInit -> eventHandlerHolder.onInit.process(event)
+            is TopAlbumsListEvent.OnRetry -> eventHandlerHolder.onRetry.process(event)
             is TopAlbumsListEvent.OnNavigateToAlbumDetails -> {
                 navigator.navigateTo(AlbumDetailScreen(event.albumId))
             }

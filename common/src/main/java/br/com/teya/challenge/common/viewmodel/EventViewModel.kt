@@ -3,20 +3,26 @@ package br.com.teya.challenge.common.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.teya.challenge.common.event.EventCollector
+import br.com.teya.challenge.common.event.EventConsumer
+import br.com.teya.challenge.common.event.EventStateContext
 import br.com.teya.challenge.common.event.EventDispatcher
 import br.com.teya.challenge.common.state.StateProducer
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 
 abstract class EventViewModel<S, E: Any>(
-    val stateProducer: StateProducer<S>,
-): ViewModel(), EventDispatcher<E>, EventCollector<E>, StateProducer<S> by stateProducer {
-
-    private val eventFlow = MutableSharedFlow<E>()
+    private val eventStateContext: EventStateContext<S, E>,
+): ViewModel(eventStateContext.scope),
+    EventDispatcher<E> by eventStateContext,
+    StateProducer<S> by eventStateContext,
+    EventConsumer<E> by eventStateContext,
+    EventCollector<E> {
 
     init {
         viewModelScope.launch {
-            eventFlow.collect(::collectEvent)
+            eventFlow
+                .collect(::collectEvent)
+        }.invokeOnCompletion {
+            println("EventContext collect event invokeOnCompletion: ${this::class.simpleName}")
         }
     }
 
@@ -26,10 +32,5 @@ abstract class EventViewModel<S, E: Any>(
         }
     }
 
-
-    override fun onEvent(event: E) {
-        viewModelScope.launch {
-            eventFlow.emit(event)
-        }
-    }
+    abstract override suspend fun onCollect(event: E)
 }

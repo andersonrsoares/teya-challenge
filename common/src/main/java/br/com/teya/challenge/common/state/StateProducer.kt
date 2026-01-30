@@ -1,18 +1,15 @@
 package br.com.teya.challenge.common.state
 
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.withContext
 
-interface StateProducer<T> {
-    val state: StateFlow<T>
+interface StateProducer<T>: StateConsumer<T>  {
+    override val state: StateFlow<T>
 
     suspend fun editState(newState: T.() -> T)
 }
-
 
 class StateProducerDelegate<T>(
     initialState: T,

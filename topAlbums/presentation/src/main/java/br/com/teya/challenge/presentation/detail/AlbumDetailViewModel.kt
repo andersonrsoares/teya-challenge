@@ -1,5 +1,7 @@
 package br.com.teya.challenge.presentation.detail
 
+import br.com.teya.challenge.common.event.EventCollector
+import br.com.teya.challenge.common.event.EventStateContext
 import br.com.teya.challenge.common.navigation.ExternalNavigator
 import br.com.teya.challenge.common.navigation.Navigator
 import br.com.teya.challenge.common.result.fold
@@ -9,14 +11,12 @@ import br.com.teya.challenge.topAlbums.domain.repositories.AlbumRepository
 import br.com.teya.challenge.presentation.viewstate.toViewState
 
 internal class AlbumDetailViewModel(
-    stateProducer: AlbumDetailStateProducer,
     private val navigator: Navigator,
     private val externalNavigator: ExternalNavigator,
     private val repository: AlbumRepository,
+    eventStateContext: EventStateContext<AlbumDetailState, AlbumDetailEvent>,
     private val albumId: String,
-): EventViewModel<AlbumDetailState, AlbumDetailEvent>(
-     stateProducer = stateProducer,
-) {
+): EventViewModel<AlbumDetailState, AlbumDetailEvent>(eventStateContext) {
 
     init {
         onEvent(AlbumDetailEvent.OnInit)

@@ -1,5 +1,7 @@
 package br.com.teya.challenge.presentation.list
 
+import br.com.teya.challenge.common.event.EventCollector
+import br.com.teya.challenge.common.event.EventStateContext
 import br.com.teya.challenge.common.navigation.Navigator
 import br.com.teya.challenge.common.result.fold
 import br.com.teya.challenge.common.result.toUiText
@@ -10,12 +12,10 @@ import br.com.teya.challenge.presentation.viewstate.toViewState
 import kotlinx.collections.immutable.toPersistentList
 
 internal class TopAlbumsListViewModel(
-    stateProducer: TopAlbumsListStateProducer,
     private val navigator: Navigator,
     private val repository: TopAlbumsRepository,
-): EventViewModel<TopAlbumsListState, TopAlbumsListEvent>(
-     stateProducer = stateProducer,
-) {
+    eventStateContext: EventStateContext<TopAlbumsListState, TopAlbumsListEvent>,
+): EventViewModel<TopAlbumsListState, TopAlbumsListEvent>(eventStateContext) {
 
     init {
         onEvent(TopAlbumsListEvent.OnInit)

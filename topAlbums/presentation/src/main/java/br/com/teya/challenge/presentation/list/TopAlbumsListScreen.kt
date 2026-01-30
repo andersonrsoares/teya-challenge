@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -37,12 +36,12 @@ import br.com.teya.challenge.presentation.R
 import br.com.teya.challenge.presentation.viewstate.AlbumViewState
 import coil.compose.AsyncImage
 import kotlinx.collections.immutable.persistentListOf
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-internal fun TopAlbumsListScreen(
-    viewModel: TopAlbumsListViewModel,
-) {
+internal fun TopAlbumsListScreen() {
+    val viewModel = koinViewModel<TopAlbumsListViewModel>()
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     TopAlbumsListScreen(

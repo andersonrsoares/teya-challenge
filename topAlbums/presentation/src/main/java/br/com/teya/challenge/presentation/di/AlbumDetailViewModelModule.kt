@@ -1,10 +1,12 @@
 package br.com.teya.challenge.presentation.di
 
 import br.com.teya.challenge.common.di.eventCoroutineScope
-import br.com.teya.challenge.common.event.EventSource
+import br.com.teya.challenge.common.di.eventSourceFlow
+import br.com.teya.challenge.common.event.EventSourceFlow
 import br.com.teya.challenge.common.event.EventDispatcher
 import br.com.teya.challenge.common.event.EventDispatcherDelegate
-import br.com.teya.challenge.common.event.EventStateContext
+import br.com.teya.challenge.common.event.EventSource
+import br.com.teya.challenge.common.event.EventStateContextHolder
 import br.com.teya.challenge.common.state.StateProducerDelegate
 import br.com.teya.challenge.presentation.detail.AlbumDetailEvent
 import br.com.teya.challenge.presentation.detail.AlbumDetailState
@@ -24,7 +26,7 @@ private enum class AlbumDetailQualifier(val qualifier: Qualifier) {
     EventCoroutineScope(named("AlbumDetailEventCoroutineScope")),
     EventDispatcherDelegate(named("AlbumDetailEventDispatcherDelegate")),
     EventDispatcher(named("AlbumDetailEventDispatcher")),
-    EventConsumer(named("AlbumDetailEventConsumer")),
+    EventSource(named("AlbumDetailEventSource")),
 }
 
 
@@ -33,6 +35,9 @@ internal val AlbumDetailViewModelModule = module {
     viewModelScope {
         eventCoroutineScope(
             qualifier = AlbumDetailQualifier.EventCoroutineScope.qualifier
+        )
+        eventSourceFlow<AlbumDetailEvent>(
+            qualifier = AlbumDetailQualifier.EventSource.qualifier
         )
         viewModel { params ->
             AlbumDetailViewModel(
@@ -54,7 +59,8 @@ internal val AlbumDetailViewModelModule = module {
 
         scoped<EventDispatcherDelegate<AlbumDetailEvent>>(AlbumDetailQualifier.EventDispatcherDelegate.qualifier) {
             EventDispatcherDelegate(
-                eventCoroutineContext = get(AlbumDetailQualifier.EventCoroutineScope.qualifier)
+                eventCoroutineContext = get(AlbumDetailQualifier.EventCoroutineScope.qualifier),
+                eventSource = get<EventSource<AlbumDetailEvent>>(AlbumDetailQualifier.EventSource.qualifier)
             )
         }
 
@@ -62,15 +68,11 @@ internal val AlbumDetailViewModelModule = module {
             get<EventDispatcherDelegate<AlbumDetailEvent>>(AlbumDetailQualifier.EventDispatcherDelegate.qualifier) as EventDispatcher<AlbumDetailEvent>
         }
 
-        scoped(AlbumDetailQualifier.EventConsumer.qualifier) {
-            get<EventDispatcherDelegate<AlbumDetailEvent>>(AlbumDetailQualifier.EventDispatcherDelegate.qualifier) as EventSource<AlbumDetailEvent>
-        }
-
         scoped(AlbumDetailQualifier.EventContext.qualifier) {
-            EventStateContext<AlbumDetailState, AlbumDetailEvent>(
+            EventStateContextHolder<AlbumDetailState, AlbumDetailEvent>(
                 stateProducer = get<AlbumDetailStateProducer>(),
                 eventDispatcher = get(AlbumDetailQualifier.EventDispatcher.qualifier),
-                eventSource = get(AlbumDetailQualifier.EventConsumer.qualifier),
+                eventSource = get<EventSource<AlbumDetailEvent>>(AlbumDetailQualifier.EventSource.qualifier),
                 eventCoroutineContext = get(AlbumDetailQualifier.EventCoroutineScope.qualifier)
             )
         }

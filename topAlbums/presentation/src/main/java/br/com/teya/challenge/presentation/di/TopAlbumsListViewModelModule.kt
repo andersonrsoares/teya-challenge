@@ -1,10 +1,12 @@
 package br.com.teya.challenge.presentation.di
 
 import br.com.teya.challenge.common.di.eventCoroutineScope
-import br.com.teya.challenge.common.event.EventSource
+import br.com.teya.challenge.common.di.eventSourceFlow
+import br.com.teya.challenge.common.event.EventSourceFlow
 import br.com.teya.challenge.common.event.EventDispatcher
 import br.com.teya.challenge.common.event.EventDispatcherDelegate
-import br.com.teya.challenge.common.event.EventStateContext
+import br.com.teya.challenge.common.event.EventSource
+import br.com.teya.challenge.common.event.EventStateContextHolder
 import br.com.teya.challenge.common.state.StateProducerDelegate
 import br.com.teya.challenge.presentation.list.TopAlbumsListEvent
 import br.com.teya.challenge.presentation.list.TopAlbumsListState
@@ -25,7 +27,7 @@ private enum class TopAlbumsListQualifier(val qualifier: Qualifier) {
     EventCoroutineScope(named("TopAlbumsListEventCoroutineScope")),
     EventDispatcherDelegate(named("TopAlbumsListEventDispatcherDelegate")),
     EventDispatcher(named("TopAlbumsListEventDispatcher")),
-    EventConsumer(named("TopAlbumsListEventConsumer")),
+    EventSource(named("TopAlbumsListEventSource")),
 }
 
 @OptIn(KoinExperimentalAPI::class)
@@ -34,6 +36,9 @@ internal val TopAlbumsListViewModelModule = module {
     viewModelScope {
         eventCoroutineScope(
             qualifier = TopAlbumsListQualifier.EventCoroutineScope.qualifier
+        )
+        eventSourceFlow<TopAlbumsListEvent>(
+            qualifier = TopAlbumsListQualifier.EventSource.qualifier
         )
         viewModel {
             TopAlbumsListViewModel(
@@ -54,7 +59,8 @@ internal val TopAlbumsListViewModelModule = module {
 
         scoped<EventDispatcherDelegate<TopAlbumsListEvent>>(TopAlbumsListQualifier.EventDispatcherDelegate.qualifier) {
             EventDispatcherDelegate(
-                eventCoroutineContext = get(TopAlbumsListQualifier.EventCoroutineScope.qualifier)
+                eventCoroutineContext = get(TopAlbumsListQualifier.EventCoroutineScope.qualifier),
+                eventSource = get<EventSource<TopAlbumsListEvent>>(TopAlbumsListQualifier.EventSource.qualifier)
             )
         }
 
@@ -62,15 +68,11 @@ internal val TopAlbumsListViewModelModule = module {
             get<EventDispatcherDelegate<TopAlbumsListEvent>>(TopAlbumsListQualifier.EventDispatcherDelegate.qualifier) as EventDispatcher<TopAlbumsListEvent>
         }
 
-        scoped<EventSource<TopAlbumsListEvent>>(TopAlbumsListQualifier.EventConsumer.qualifier) {
-            get<EventDispatcherDelegate<TopAlbumsListEvent>>(TopAlbumsListQualifier.EventDispatcherDelegate.qualifier) as EventSource<TopAlbumsListEvent>
-        }
-
         scoped(TopAlbumsListQualifier.EventContext.qualifier) {
-            EventStateContext(
+            EventStateContextHolder(
                 stateProducer = get<TopAlbumsListStateProducer>(),
                 eventDispatcher = get<EventDispatcher<TopAlbumsListEvent>>(TopAlbumsListQualifier.EventDispatcher.qualifier),
-                eventSource = get<EventSource<TopAlbumsListEvent>>(TopAlbumsListQualifier.EventConsumer.qualifier),
+                eventSource = get<EventSource<TopAlbumsListEvent>>(TopAlbumsListQualifier.EventSource.qualifier),
                 eventCoroutineContext = get(TopAlbumsListQualifier.EventCoroutineScope.qualifier),
             )
         }

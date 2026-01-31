@@ -4,7 +4,7 @@ import app.cash.turbine.test
 import br.com.teya.challenge.common.event.EventCoroutineContextDelegate
 import br.com.teya.challenge.common.event.EventCoroutineDispatcher
 import br.com.teya.challenge.common.event.EventDispatcherDelegate
-import br.com.teya.challenge.common.event.EventStateContext
+import br.com.teya.challenge.common.event.EventStateContextHolder
 import br.com.teya.challenge.common.navigation.Navigator
 import br.com.teya.challenge.common.result.DataStateResult
 import br.com.teya.challenge.common.state.StateProducerDelegate
@@ -60,10 +60,10 @@ class TopAlbumsListViewModelTest {
                 )
             )
         )
-        val eventStateContext = EventStateContext(
+        val eventStateContext = EventStateContextHolder(
             stateProducer = stateProducer,
             eventDispatcher = eventDispatcherDelegate,
-            eventSource = eventDispatcherDelegate,
+            eventSourceHolder = eventDispatcherDelegate,
             eventCoroutineContext = eventDispatcherDelegate
         )
 

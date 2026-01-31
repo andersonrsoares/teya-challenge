@@ -40,5 +40,8 @@ dependencies {
     implementation(libs.nav3.ui)
     implementation(libs.androidx.lifecycle.viewmodel.nav3)
 
+    //koin
+    implementation(libs.koin.android)
+
     implementation(libs.androidx.browser)
 }

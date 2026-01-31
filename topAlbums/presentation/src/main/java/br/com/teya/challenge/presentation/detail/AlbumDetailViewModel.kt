@@ -1,32 +1,26 @@
 package br.com.teya.challenge.presentation.detail
 
+import br.com.teya.challenge.common.event.EventStateContext
 import br.com.teya.challenge.common.navigation.ExternalNavigator
 import br.com.teya.challenge.common.navigation.Navigator
-import br.com.teya.challenge.common.result.fold
-import br.com.teya.challenge.common.result.toUiText
-import br.com.teya.challenge.common.viewmodel.EventViewModel
-import br.com.teya.challenge.topAlbums.domain.repositories.AlbumRepository
-import br.com.teya.challenge.presentation.viewstate.toViewState
+import br.com.teya.challenge.common.event.viewmodel.EventViewModel
+import br.com.teya.challenge.presentation.detail.handlers.AlbumDetailEventHandlerHolder
 
 internal class AlbumDetailViewModel(
-    stateProducer: AlbumDetailStateProducer,
     private val navigator: Navigator,
     private val externalNavigator: ExternalNavigator,
-    private val repository: AlbumRepository,
-    private val albumId: String,
-): EventViewModel<AlbumDetailState, AlbumDetailEvent>(
-     stateProducer = stateProducer,
-) {
+    private val eventHandlerHolder: AlbumDetailEventHandlerHolder,
+    eventStateContext: EventStateContext<AlbumDetailState, AlbumDetailEvent>,
+    albumId: String,
+): EventViewModel<AlbumDetailState, AlbumDetailEvent>(eventStateContext) {
 
     init {
-        onEvent(AlbumDetailEvent.OnInit)
+        onEvent(AlbumDetailEvent.OnInit(albumId))
     }
 
-    override suspend fun onCollect(event: AlbumDetailEvent) {
+    override suspend fun handleEvent(event: AlbumDetailEvent) {
         when (event) {
-            is AlbumDetailEvent.OnInit -> {
-                loadAlbum()
-            }
+            is AlbumDetailEvent.OnInit -> eventHandlerHolder.onInit.process(event)
             is AlbumDetailEvent.OnNavigateBack -> {
                 navigator.navigateBack()
             }
@@ -34,32 +28,5 @@ internal class AlbumDetailViewModel(
                 externalNavigator.navigateToUrl(event.url)
             }
         }
-    }
-
-    private suspend fun loadAlbum() {
-        editState {
-            copy(isLoading = true, isError = false)
-        }
-        val albums = repository.fetchAlbum(albumId)
-        albums.fold(
-            onSuccess = {
-                editState {
-                    copy(
-                        album = it.toViewState(),
-                        isLoading = false,
-                        isError = false,
-                    )
-                }
-            },
-            onFailure = {
-                editState {
-                    copy(
-                        isLoading = false,
-                        isError = true,
-                        error = it.toUiText(),
-                    )
-                }
-            }
-        )
     }
 }

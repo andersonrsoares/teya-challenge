@@ -1,9 +1,14 @@
 package br.com.teya.challenge.presentaion.list
 
 import app.cash.turbine.test
+import br.com.teya.challenge.common.event.coroutine.EventCoroutineContextDelegate
+import br.com.teya.challenge.common.event.coroutine.EventCoroutineDispatcher
+import br.com.teya.challenge.common.event.dispacher.EventDispatcherDelegate
+import br.com.teya.challenge.common.event.EventStateContext
+import br.com.teya.challenge.common.event.source.EventSourceFlow
 import br.com.teya.challenge.common.navigation.Navigator
 import br.com.teya.challenge.common.result.DataStateResult
-import br.com.teya.challenge.common.state.StateProducerDelegate
+import br.com.teya.challenge.common.event.state.StateStore
 import br.com.teya.challenge.topAlbums.domain.models.Album
 import br.com.teya.challenge.topAlbums.domain.models.AlbumImage
 import br.com.teya.challenge.topAlbums.domain.models.TopAlbumsFeed
@@ -12,21 +17,20 @@ import br.com.teya.challenge.presentation.list.TopAlbumsListEvent
 import br.com.teya.challenge.presentation.list.TopAlbumsListState
 import br.com.teya.challenge.presentation.list.TopAlbumsListStateProducer
 import br.com.teya.challenge.presentation.list.TopAlbumsListViewModel
+import br.com.teya.challenge.presentation.list.handlers.OnInitTopAlbumsListEventHandler
+import br.com.teya.challenge.presentation.list.handlers.TopAlbumsListEventHandlerHolder
 import br.com.teya.challenge.presentation.navigation.AlbumDetailScreen
 import br.com.teya.challenge.presentation.viewstate.toViewState
 import io.mockk.coEvery
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.collections.immutable.toPersistentList
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.advanceUntilIdle
-import kotlinx.coroutines.test.setMain
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.resetMain
-import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -34,32 +38,56 @@ import org.junit.Test
 @OptIn(ExperimentalCoroutinesApi::class)
 class TopAlbumsListViewModelTest {
 
-    val standardTestDispatcher = StandardTestDispatcher()
-    private val stateProducerDelegate = StateProducerDelegate(
+    private val standardTestDispatcher = StandardTestDispatcher()
+    private val stateStore = StateStore(
         initialState =  TopAlbumsListState(),
 
     )
-    private val stateProducer: TopAlbumsListStateProducer = TopAlbumsListStateProducer(stateProducerDelegate)
+    private val stateProducer: TopAlbumsListStateProducer = TopAlbumsListStateProducer(stateStore)
     private val navigator: Navigator = mockk(relaxed = true)
     private val repository: TopAlbumsRepository = mockk(relaxed = true)
     private lateinit var viewModel: TopAlbumsListViewModel
 
-
     @Before
     fun setup() {
         coEvery { repository.fetchTopAlbums() } returns DataStateResult.Success(TopAlbumsFeed(emptyList()))
-        Dispatchers.setMain(standardTestDispatcher)
-        viewModel = TopAlbumsListViewModel(stateProducer, navigator, repository)
-    }
+        val eventSource = EventSourceFlow<TopAlbumsListEvent>()
+        val eventDispatcherDelegate = EventDispatcherDelegate<TopAlbumsListEvent>(
+            eventCoroutineContext = EventCoroutineContextDelegate(
+                scope = TestScope(standardTestDispatcher),
+                coroutineDispatcher = EventCoroutineDispatcher(
+                    dispatchOn = standardTestDispatcher,
+                    collectOn = standardTestDispatcher,
+                    handleOn = standardTestDispatcher,
+                )
+            ),
+            eventSource = eventSource
+        )
+        val eventStateContext = EventStateContext(
+            stateProducer = stateProducer,
+            stateConsumer = stateStore,
+            eventDispatcher = eventDispatcherDelegate,
+            eventSource = eventSource,
+            eventCoroutineContext = eventDispatcherDelegate
+        )
 
-    @After
-    fun tearDown() {
-        Dispatchers.resetMain()
+        val onInitTopAlbumsListEventHandler = OnInitTopAlbumsListEventHandler(
+            repository = repository,
+            stateProducer = stateProducer
+        )
+        viewModel = TopAlbumsListViewModel(
+            navigator = navigator,
+            eventStateContext = eventStateContext,
+            eventHandlerHolder = TopAlbumsListEventHandlerHolder(
+                onInit = onInitTopAlbumsListEventHandler,
+                onRetry = mockk(),
+            )
+        )
     }
 
 
     @Test
-    fun `OnInit fetch top albums and update state`() = runTest {
+    fun `OnInit fetch top albums and update state`() = runTest(standardTestDispatcher) {
         val expectedState = TopAlbumsListState(
             topAlbums = fakeTopAlbumsFeed.albums.map { it.toViewState() }.toPersistentList()
         )
@@ -73,7 +101,7 @@ class TopAlbumsListViewModelTest {
     }
 
     @Test
-    fun `OnNavigateToAlbumDetails navigate to album details screen`() = runTest {
+    fun `OnNavigateToAlbumDetails navigate to album details screen`() = runTest(standardTestDispatcher) {
         viewModel.onEvent(TopAlbumsListEvent.OnNavigateToAlbumDetails("1"))
         advanceUntilIdle()
         verify { navigator.navigateTo(AlbumDetailScreen("1")) }

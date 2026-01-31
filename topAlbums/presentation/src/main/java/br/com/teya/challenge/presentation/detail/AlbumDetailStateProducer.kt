@@ -1,9 +1,9 @@
 package br.com.teya.challenge.presentation.detail
 
-import br.com.teya.challenge.common.state.StateProducer
-import br.com.teya.challenge.common.state.StateProducerDelegate
+import br.com.teya.challenge.common.event.state.StateProducer
+import br.com.teya.challenge.common.event.state.StateStore
 
 
 internal class AlbumDetailStateProducer(
-    producer: StateProducerDelegate<AlbumDetailState>
-): StateProducer<AlbumDetailState> by producer
+    store: StateStore<AlbumDetailState>
+): StateProducer<AlbumDetailState> by store

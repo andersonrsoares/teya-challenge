@@ -28,7 +28,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import br.com.teya.challenge.common.composables.CustomScaffold
 import br.com.teya.challenge.common.composables.Error
 import br.com.teya.challenge.common.composables.Loading
 import br.com.teya.challenge.common.composables.StateScreen

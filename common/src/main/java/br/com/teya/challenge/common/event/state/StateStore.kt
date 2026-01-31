@@ -1,22 +1,13 @@
-package br.com.teya.challenge.common.state
+package br.com.teya.challenge.common.event.state
 
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.withContext
 
-interface StateProducer<T> {
-    val state: StateFlow<T>
-
-    fun editState(newState: T.() -> T)
-}
-
-
-class StateProducerDelegate<T>(
+class StateStore<T>(
     initialState: T,
-) : StateProducer<T> {
+) : StateProducer<T>, StateConsumer<T> {
 
     private val _state = MutableStateFlow(initialState)
     override val state: StateFlow<T> = _state.asStateFlow()

@@ -1,7 +1,7 @@
 package br.com.teya.challenge.presentation.di
 
 import br.com.teya.challenge.common.di.eventCoroutineScope
-import br.com.teya.challenge.common.event.EventConsumer
+import br.com.teya.challenge.common.event.EventSource
 import br.com.teya.challenge.common.event.EventDispatcher
 import br.com.teya.challenge.common.event.EventDispatcherDelegate
 import br.com.teya.challenge.common.event.EventStateContext
@@ -63,14 +63,14 @@ internal val AlbumDetailViewModelModule = module {
         }
 
         scoped(AlbumDetailQualifier.EventConsumer.qualifier) {
-            get<EventDispatcherDelegate<AlbumDetailEvent>>(AlbumDetailQualifier.EventDispatcherDelegate.qualifier) as EventConsumer<AlbumDetailEvent>
+            get<EventDispatcherDelegate<AlbumDetailEvent>>(AlbumDetailQualifier.EventDispatcherDelegate.qualifier) as EventSource<AlbumDetailEvent>
         }
 
         scoped(AlbumDetailQualifier.EventContext.qualifier) {
             EventStateContext<AlbumDetailState, AlbumDetailEvent>(
                 stateProducer = get<AlbumDetailStateProducer>(),
                 eventDispatcher = get(AlbumDetailQualifier.EventDispatcher.qualifier),
-                eventConsumer = get(AlbumDetailQualifier.EventConsumer.qualifier),
+                eventSource = get(AlbumDetailQualifier.EventConsumer.qualifier),
                 eventCoroutineContext = get(AlbumDetailQualifier.EventCoroutineScope.qualifier)
             )
         }

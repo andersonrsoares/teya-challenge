@@ -1,7 +1,7 @@
 package br.com.teya.challenge.presentation.di
 
 import br.com.teya.challenge.common.di.eventCoroutineScope
-import br.com.teya.challenge.common.event.EventConsumer
+import br.com.teya.challenge.common.event.EventSource
 import br.com.teya.challenge.common.event.EventDispatcher
 import br.com.teya.challenge.common.event.EventDispatcherDelegate
 import br.com.teya.challenge.common.event.EventStateContext
@@ -62,15 +62,15 @@ internal val TopAlbumsListViewModelModule = module {
             get<EventDispatcherDelegate<TopAlbumsListEvent>>(TopAlbumsListQualifier.EventDispatcherDelegate.qualifier) as EventDispatcher<TopAlbumsListEvent>
         }
 
-        scoped<EventConsumer<TopAlbumsListEvent>>(TopAlbumsListQualifier.EventConsumer.qualifier) {
-            get<EventDispatcherDelegate<TopAlbumsListEvent>>(TopAlbumsListQualifier.EventDispatcherDelegate.qualifier) as EventConsumer<TopAlbumsListEvent>
+        scoped<EventSource<TopAlbumsListEvent>>(TopAlbumsListQualifier.EventConsumer.qualifier) {
+            get<EventDispatcherDelegate<TopAlbumsListEvent>>(TopAlbumsListQualifier.EventDispatcherDelegate.qualifier) as EventSource<TopAlbumsListEvent>
         }
 
         scoped(TopAlbumsListQualifier.EventContext.qualifier) {
             EventStateContext(
                 stateProducer = get<TopAlbumsListStateProducer>(),
                 eventDispatcher = get<EventDispatcher<TopAlbumsListEvent>>(TopAlbumsListQualifier.EventDispatcher.qualifier),
-                eventConsumer = get<EventConsumer<TopAlbumsListEvent>>(TopAlbumsListQualifier.EventConsumer.qualifier),
+                eventSource = get<EventSource<TopAlbumsListEvent>>(TopAlbumsListQualifier.EventConsumer.qualifier),
                 eventCoroutineContext = get(TopAlbumsListQualifier.EventCoroutineScope.qualifier),
             )
         }

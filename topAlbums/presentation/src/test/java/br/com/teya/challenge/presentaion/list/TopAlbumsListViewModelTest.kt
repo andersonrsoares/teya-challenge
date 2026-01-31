@@ -63,7 +63,7 @@ class TopAlbumsListViewModelTest {
         val eventStateContext = EventStateContext(
             stateProducer = stateProducer,
             eventDispatcher = eventDispatcherDelegate,
-            eventConsumer = eventDispatcherDelegate,
+            eventSource = eventDispatcherDelegate,
             eventCoroutineContext = eventDispatcherDelegate
         )
 

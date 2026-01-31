@@ -2,7 +2,7 @@ package br.com.teya.challenge.common.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.teya.challenge.common.event.EventConsumer
+import br.com.teya.challenge.common.event.EventSource
 import br.com.teya.challenge.common.event.EventCoroutineContext
 import br.com.teya.challenge.common.event.EventStateContext
 import br.com.teya.challenge.common.event.EventDispatcher
@@ -14,12 +14,12 @@ abstract class EventViewModel<S, E: Any>(
 ): ViewModel(eventStateContext.scope),
     EventDispatcher<E> by eventStateContext,
     StateProducer<S> by eventStateContext,
-    EventConsumer<E> by eventStateContext,
+    EventSource<E> by eventStateContext,
     EventCoroutineContext by eventStateContext {
 
     init {
         viewModelScope.launch(coroutineDispatcher.collectOn) {
-            eventStream.collect(::onEventDispatched)
+            events.collect(::onEventDispatched)
         }
     }
 

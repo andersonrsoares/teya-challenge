@@ -5,6 +5,7 @@ import br.com.teya.challenge.common.event.coroutine.EventCoroutineContextDelegat
 import br.com.teya.challenge.common.event.coroutine.EventCoroutineDispatcher
 import br.com.teya.challenge.common.event.dispacher.EventDispatcherDelegate
 import br.com.teya.challenge.common.event.EventStateContext
+import br.com.teya.challenge.common.event.source.EventSourceFlow
 import br.com.teya.challenge.common.navigation.Navigator
 import br.com.teya.challenge.common.result.DataStateResult
 import br.com.teya.challenge.common.event.state.StateProducerDelegate
@@ -50,6 +51,7 @@ class TopAlbumsListViewModelTest {
     @Before
     fun setup() {
         coEvery { repository.fetchTopAlbums() } returns DataStateResult.Success(TopAlbumsFeed(emptyList()))
+        val eventSource = EventSourceFlow<TopAlbumsListEvent>()
         val eventDispatcherDelegate = EventDispatcherDelegate<TopAlbumsListEvent>(
             eventCoroutineContext = EventCoroutineContextDelegate(
                 scope = TestScope(standardTestDispatcher),
@@ -58,12 +60,13 @@ class TopAlbumsListViewModelTest {
                     collectOn = standardTestDispatcher,
                     handleOn = standardTestDispatcher,
                 )
-            )
+            ),
+            eventSource = eventSource
         )
         val eventStateContext = EventStateContext(
             stateProducer = stateProducer,
             eventDispatcher = eventDispatcherDelegate,
-            eventSourceHolder = eventDispatcherDelegate,
+            eventSource = eventSource,
             eventCoroutineContext = eventDispatcherDelegate
         )
 

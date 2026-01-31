@@ -1,7 +1,8 @@
 package br.com.teya.challenge.common.event
 
-import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.Flow
+
 
 interface EventConsumer<E> {
-    val eventFlow: SharedFlow<E>
+    val eventStream: Flow<E>
 }

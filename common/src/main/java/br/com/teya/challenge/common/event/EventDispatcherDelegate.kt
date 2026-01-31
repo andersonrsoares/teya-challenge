@@ -5,14 +5,14 @@ import kotlinx.coroutines.launch
 
 
 class EventDispatcherDelegate<E>(
-    eventCoroutineScope: EventCoroutineScope,
+    eventCoroutineContext: EventCoroutineContext,
 ): EventDispatcher<E>, EventConsumer<E>,
-    EventCoroutineScope by eventCoroutineScope {
-    override val eventFlow: MutableSharedFlow<E> = MutableSharedFlow()
+    EventCoroutineContext by eventCoroutineContext {
+    override val eventStream: MutableSharedFlow<E> = MutableSharedFlow()
 
     override fun onEvent(event: E) {
-        scope.launch {
-            eventFlow.emit(event)
+        scope.launch(coroutineDispatcher.dispatchOn) {
+            eventStream.emit(event)
         }
     }
 }

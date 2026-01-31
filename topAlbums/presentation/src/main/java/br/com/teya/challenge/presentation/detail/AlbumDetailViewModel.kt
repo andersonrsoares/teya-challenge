@@ -18,7 +18,7 @@ internal class AlbumDetailViewModel(
         onEvent(AlbumDetailEvent.OnInit(albumId))
     }
 
-    override suspend fun onCollect(event: AlbumDetailEvent) {
+    override suspend fun handleEvent(event: AlbumDetailEvent) {
         when (event) {
             is AlbumDetailEvent.OnInit -> eventHandlerHolder.onInit.process(event)
             is AlbumDetailEvent.OnNavigateBack -> {

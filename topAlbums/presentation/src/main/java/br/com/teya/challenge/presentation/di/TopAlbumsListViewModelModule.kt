@@ -54,7 +54,7 @@ internal val TopAlbumsListViewModelModule = module {
 
         scoped<EventDispatcherDelegate<TopAlbumsListEvent>>(TopAlbumsListQualifier.EventDispatcherDelegate.qualifier) {
             EventDispatcherDelegate(
-                eventCoroutineScope = get(TopAlbumsListQualifier.EventCoroutineScope.qualifier)
+                eventCoroutineContext = get(TopAlbumsListQualifier.EventCoroutineScope.qualifier)
             )
         }
 
@@ -71,7 +71,7 @@ internal val TopAlbumsListViewModelModule = module {
                 stateProducer = get<TopAlbumsListStateProducer>(),
                 eventDispatcher = get<EventDispatcher<TopAlbumsListEvent>>(TopAlbumsListQualifier.EventDispatcher.qualifier),
                 eventConsumer = get<EventConsumer<TopAlbumsListEvent>>(TopAlbumsListQualifier.EventConsumer.qualifier),
-                eventCoroutineScope = get(TopAlbumsListQualifier.EventCoroutineScope.qualifier),
+                eventCoroutineContext = get(TopAlbumsListQualifier.EventCoroutineScope.qualifier),
             )
         }
 

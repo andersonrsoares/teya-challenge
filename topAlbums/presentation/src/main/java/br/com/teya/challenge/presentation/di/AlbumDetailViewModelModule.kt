@@ -2,7 +2,6 @@ package br.com.teya.challenge.presentation.di
 
 import br.com.teya.challenge.common.di.eventCoroutineScope
 import br.com.teya.challenge.common.event.EventConsumer
-import br.com.teya.challenge.common.event.EventCoroutineScopeDelegate
 import br.com.teya.challenge.common.event.EventDispatcher
 import br.com.teya.challenge.common.event.EventDispatcherDelegate
 import br.com.teya.challenge.common.event.EventStateContext
@@ -13,9 +12,6 @@ import br.com.teya.challenge.presentation.detail.AlbumDetailStateProducer
 import br.com.teya.challenge.presentation.detail.AlbumDetailViewModel
 import br.com.teya.challenge.presentation.detail.handlers.AlbumDetailEventHandlerHolder
 import br.com.teya.challenge.presentation.detail.handlers.OnInitAlbumDetailEventHandler
-import br.com.teya.challenge.presentation.list.TopAlbumsListStateProducer
-import br.com.teya.challenge.presentation.list.handlers.OnInitTopAlbumsListEventHandler
-import br.com.teya.challenge.presentation.list.handlers.TopAlbumsListEventHandlerHolder
 import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.qualifier.Qualifier
@@ -58,7 +54,7 @@ internal val AlbumDetailViewModelModule = module {
 
         scoped<EventDispatcherDelegate<AlbumDetailEvent>>(AlbumDetailQualifier.EventDispatcherDelegate.qualifier) {
             EventDispatcherDelegate(
-                eventCoroutineScope = get(AlbumDetailQualifier.EventCoroutineScope.qualifier)
+                eventCoroutineContext = get(AlbumDetailQualifier.EventCoroutineScope.qualifier)
             )
         }
 
@@ -75,7 +71,7 @@ internal val AlbumDetailViewModelModule = module {
                 stateProducer = get<AlbumDetailStateProducer>(),
                 eventDispatcher = get(AlbumDetailQualifier.EventDispatcher.qualifier),
                 eventConsumer = get(AlbumDetailQualifier.EventConsumer.qualifier),
-                eventCoroutineScope = get(AlbumDetailQualifier.EventCoroutineScope.qualifier)
+                eventCoroutineContext = get(AlbumDetailQualifier.EventCoroutineScope.qualifier)
             )
         }
 

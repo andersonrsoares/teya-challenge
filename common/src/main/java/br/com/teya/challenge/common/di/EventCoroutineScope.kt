@@ -1,7 +1,8 @@
 package br.com.teya.challenge.common.di
 
-import br.com.teya.challenge.common.event.EventCoroutineScope
-import br.com.teya.challenge.common.event.EventCoroutineScopeDelegate
+import br.com.teya.challenge.common.event.EventCoroutineContext
+import br.com.teya.challenge.common.event.EventCoroutineContextDelegate
+import br.com.teya.challenge.common.event.EventCoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -18,9 +19,14 @@ fun ScopeDSL.eventCoroutineScope(
     factory<CoroutineScope>(ViewModelCoroutineScope.Qualifier) {
         CoroutineScope(Dispatchers.Main.immediate + SupervisorJob())
     }
-    scoped<EventCoroutineScope>(qualifier) {
-        EventCoroutineScopeDelegate(
-            scope = get(ViewModelCoroutineScope.Qualifier)
+    scoped<EventCoroutineContext>(qualifier) {
+        EventCoroutineContextDelegate(
+            scope = get(ViewModelCoroutineScope.Qualifier),
+            coroutineDispatcher = EventCoroutineDispatcher(
+                dispatchOn = Dispatchers.Default,
+                collectOn = Dispatchers.Default,
+                handleOn = Dispatchers.Main.immediate,
+            )
         )
     }
 }

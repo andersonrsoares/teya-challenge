@@ -1,7 +1,8 @@
 package br.com.teya.challenge.presentaion.list
 
 import app.cash.turbine.test
-import br.com.teya.challenge.common.event.EventCoroutineScopeDelegate
+import br.com.teya.challenge.common.event.EventCoroutineContextDelegate
+import br.com.teya.challenge.common.event.EventCoroutineDispatcher
 import br.com.teya.challenge.common.event.EventDispatcherDelegate
 import br.com.teya.challenge.common.event.EventStateContext
 import br.com.teya.challenge.common.navigation.Navigator
@@ -50,15 +51,20 @@ class TopAlbumsListViewModelTest {
     fun setup() {
         coEvery { repository.fetchTopAlbums() } returns DataStateResult.Success(TopAlbumsFeed(emptyList()))
         val eventDispatcherDelegate = EventDispatcherDelegate<TopAlbumsListEvent>(
-            eventCoroutineScope = EventCoroutineScopeDelegate(
-                scope = TestScope(standardTestDispatcher)
+            eventCoroutineContext = EventCoroutineContextDelegate(
+                scope = TestScope(standardTestDispatcher),
+                coroutineDispatcher = EventCoroutineDispatcher(
+                    dispatchOn = standardTestDispatcher,
+                    collectOn = standardTestDispatcher,
+                    handleOn = standardTestDispatcher,
+                )
             )
         )
         val eventStateContext = EventStateContext(
             stateProducer = stateProducer,
             eventDispatcher = eventDispatcherDelegate,
             eventConsumer = eventDispatcherDelegate,
-            eventCoroutineScope = eventDispatcherDelegate
+            eventCoroutineContext = eventDispatcherDelegate
         )
 
         val onInitTopAlbumsListEventHandler = OnInitTopAlbumsListEventHandler(

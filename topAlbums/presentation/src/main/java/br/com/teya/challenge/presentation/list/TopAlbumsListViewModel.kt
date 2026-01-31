@@ -16,7 +16,7 @@ internal class TopAlbumsListViewModel(
         onEvent(TopAlbumsListEvent.OnInit)
     }
 
-    override suspend fun onCollect(event: TopAlbumsListEvent) {
+    override suspend fun handleEvent(event: TopAlbumsListEvent) {
         when (event) {
             is TopAlbumsListEvent.OnInit -> eventHandlerHolder.onInit.process(event)
             is TopAlbumsListEvent.OnRetry -> eventHandlerHolder.onRetry.process(event)

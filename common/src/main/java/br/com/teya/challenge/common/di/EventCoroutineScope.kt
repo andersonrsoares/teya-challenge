@@ -1,8 +1,8 @@
 package br.com.teya.challenge.common.di
 
-import br.com.teya.challenge.common.event.EventCoroutineContext
-import br.com.teya.challenge.common.event.EventCoroutineContextDelegate
-import br.com.teya.challenge.common.event.EventCoroutineDispatcher
+import br.com.teya.challenge.common.event.coroutine.EventCoroutineContext
+import br.com.teya.challenge.common.event.coroutine.EventCoroutineContextDelegate
+import br.com.teya.challenge.common.event.coroutine.EventCoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob

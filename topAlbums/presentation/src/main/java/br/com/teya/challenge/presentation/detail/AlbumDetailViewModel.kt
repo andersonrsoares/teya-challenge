@@ -1,18 +1,18 @@
 package br.com.teya.challenge.presentation.detail
 
-import br.com.teya.challenge.common.event.EventStateContextHolder
+import br.com.teya.challenge.common.event.EventStateContext
 import br.com.teya.challenge.common.navigation.ExternalNavigator
 import br.com.teya.challenge.common.navigation.Navigator
-import br.com.teya.challenge.common.viewmodel.EventViewModelHolder
+import br.com.teya.challenge.common.event.viewmodel.EventViewModel
 import br.com.teya.challenge.presentation.detail.handlers.AlbumDetailEventHandlerHolder
 
 internal class AlbumDetailViewModel(
     private val navigator: Navigator,
     private val externalNavigator: ExternalNavigator,
     private val eventHandlerHolder: AlbumDetailEventHandlerHolder,
-    eventStateContext: EventStateContextHolder<AlbumDetailState, AlbumDetailEvent>,
+    eventStateContext: EventStateContext<AlbumDetailState, AlbumDetailEvent>,
     albumId: String,
-): EventViewModelHolder<AlbumDetailState, AlbumDetailEvent>(eventStateContext) {
+): EventViewModel<AlbumDetailState, AlbumDetailEvent>(eventStateContext) {
 
     init {
         onEvent(AlbumDetailEvent.OnInit(albumId))

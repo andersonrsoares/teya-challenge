@@ -1,8 +1,11 @@
 package br.com.teya.challenge.common.event
 
-import br.com.teya.challenge.common.state.StateProducer
+import br.com.teya.challenge.common.event.coroutine.EventCoroutineContext
+import br.com.teya.challenge.common.event.dispacher.EventDispatcher
+import br.com.teya.challenge.common.event.source.EventSource
+import br.com.teya.challenge.common.event.state.StateProducer
 
-class EventStateContextHolder<S, E>(
+class EventStateContext<S, E>(
     private val stateProducer: StateProducer<S>,
     private val eventDispatcher: EventDispatcher<E>,
     private val eventSource: EventSource<E>,

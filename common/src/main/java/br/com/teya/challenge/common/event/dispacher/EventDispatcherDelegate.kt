@@ -1,5 +1,7 @@
-package br.com.teya.challenge.common.event
+package br.com.teya.challenge.common.event.dispacher
 
+import br.com.teya.challenge.common.event.coroutine.EventCoroutineContext
+import br.com.teya.challenge.common.event.source.EventSource
 import kotlinx.coroutines.launch
 
 

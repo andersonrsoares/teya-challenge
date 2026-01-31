@@ -1,4 +1,4 @@
-package br.com.teya.challenge.common.event
+package br.com.teya.challenge.common.event.source
 
 import kotlinx.coroutines.flow.MutableSharedFlow
 

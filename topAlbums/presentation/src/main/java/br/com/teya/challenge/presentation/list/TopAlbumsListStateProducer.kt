@@ -1,7 +1,7 @@
 package br.com.teya.challenge.presentation.list
 
-import br.com.teya.challenge.common.state.StateProducer
-import br.com.teya.challenge.common.state.StateProducerDelegate
+import br.com.teya.challenge.common.event.state.StateProducer
+import br.com.teya.challenge.common.event.state.StateProducerDelegate
 
 
 internal class TopAlbumsListStateProducer(

@@ -1,6 +1,5 @@
-package br.com.teya.challenge.common.event
+package br.com.teya.challenge.common.event.coroutine
 
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 
 interface EventCoroutineContext {
@@ -8,11 +7,6 @@ interface EventCoroutineContext {
     val coroutineDispatcher: EventCoroutineDispatcher
 }
 
-data class EventCoroutineDispatcher(
-    val dispatchOn: CoroutineDispatcher,
-    val collectOn: CoroutineDispatcher,
-    val handleOn: CoroutineDispatcher,
-)
 
 class EventCoroutineContextDelegate(
     override val scope: CoroutineScope,

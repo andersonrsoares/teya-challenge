@@ -1,13 +1,13 @@
 package br.com.teya.challenge.presentaion.list
 
 import app.cash.turbine.test
-import br.com.teya.challenge.common.event.EventCoroutineContextDelegate
-import br.com.teya.challenge.common.event.EventCoroutineDispatcher
-import br.com.teya.challenge.common.event.EventDispatcherDelegate
-import br.com.teya.challenge.common.event.EventStateContextHolder
+import br.com.teya.challenge.common.event.coroutine.EventCoroutineContextDelegate
+import br.com.teya.challenge.common.event.coroutine.EventCoroutineDispatcher
+import br.com.teya.challenge.common.event.dispacher.EventDispatcherDelegate
+import br.com.teya.challenge.common.event.EventStateContext
 import br.com.teya.challenge.common.navigation.Navigator
 import br.com.teya.challenge.common.result.DataStateResult
-import br.com.teya.challenge.common.state.StateProducerDelegate
+import br.com.teya.challenge.common.event.state.StateProducerDelegate
 import br.com.teya.challenge.topAlbums.domain.models.Album
 import br.com.teya.challenge.topAlbums.domain.models.AlbumImage
 import br.com.teya.challenge.topAlbums.domain.models.TopAlbumsFeed
@@ -60,7 +60,7 @@ class TopAlbumsListViewModelTest {
                 )
             )
         )
-        val eventStateContext = EventStateContextHolder(
+        val eventStateContext = EventStateContext(
             stateProducer = stateProducer,
             eventDispatcher = eventDispatcherDelegate,
             eventSourceHolder = eventDispatcherDelegate,

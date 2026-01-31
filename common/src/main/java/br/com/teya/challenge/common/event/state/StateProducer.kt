@@ -1,4 +1,4 @@
-package br.com.teya.challenge.common.state
+package br.com.teya.challenge.common.event.state
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

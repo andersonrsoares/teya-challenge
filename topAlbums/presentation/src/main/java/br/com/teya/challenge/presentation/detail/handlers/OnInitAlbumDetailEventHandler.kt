@@ -1,6 +1,6 @@
 package br.com.teya.challenge.presentation.detail.handlers
 
-import br.com.teya.challenge.common.event.EventHandler
+import br.com.teya.challenge.common.event.handler.EventHandler
 import br.com.teya.challenge.common.result.fold
 import br.com.teya.challenge.common.result.toUiText
 import br.com.teya.challenge.presentation.detail.AlbumDetailEvent

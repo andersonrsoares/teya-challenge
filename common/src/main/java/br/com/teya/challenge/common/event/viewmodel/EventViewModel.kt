@@ -1,15 +1,15 @@
-package br.com.teya.challenge.common.viewmodel
+package br.com.teya.challenge.common.event.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.teya.challenge.common.event.EventCoroutineContext
-import br.com.teya.challenge.common.event.EventStateContextHolder
-import br.com.teya.challenge.common.event.EventDispatcher
-import br.com.teya.challenge.common.state.StateProducer
+import br.com.teya.challenge.common.event.EventStateContext
+import br.com.teya.challenge.common.event.coroutine.EventCoroutineContext
+import br.com.teya.challenge.common.event.dispacher.EventDispatcher
+import br.com.teya.challenge.common.event.state.StateProducer
 import kotlinx.coroutines.launch
 
-abstract class EventViewModelHolder<S, E: Any>(
-    private val eventStateContext: EventStateContextHolder<S, E>,
+abstract class EventViewModel<S, E: Any>(
+    private val eventStateContext: EventStateContext<S, E>,
 ): ViewModel(eventStateContext.scope),
     EventDispatcher<E> by eventStateContext,
     StateProducer<S> by eventStateContext,

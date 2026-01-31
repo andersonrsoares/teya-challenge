@@ -6,7 +6,7 @@ import br.com.teya.challenge.common.event.dispacher.EventDispatcher
 import br.com.teya.challenge.common.event.dispacher.EventDispatcherDelegate
 import br.com.teya.challenge.common.event.source.EventSource
 import br.com.teya.challenge.common.event.EventStateContext
-import br.com.teya.challenge.common.event.state.StateProducerDelegate
+import br.com.teya.challenge.common.event.state.StateStore
 import br.com.teya.challenge.presentation.detail.AlbumDetailEvent
 import br.com.teya.challenge.presentation.detail.AlbumDetailState
 import br.com.teya.challenge.presentation.detail.AlbumDetailStateProducer
@@ -26,6 +26,9 @@ private enum class AlbumDetailQualifier(val qualifier: Qualifier) {
     EventDispatcherDelegate(named("AlbumDetailEventDispatcherDelegate")),
     EventDispatcher(named("AlbumDetailEventDispatcher")),
     EventSource(named("AlbumDetailEventSource")),
+
+    StateStore(named("AlbumDetailStateStore")),
+
 }
 
 
@@ -48,11 +51,15 @@ internal val AlbumDetailViewModelModule = module {
             )
         }
 
+        scoped<StateStore<AlbumDetailState>>(AlbumDetailQualifier.StateStore.qualifier) {
+            StateStore(
+                initialState = AlbumDetailState(),
+            )
+        }
+
         scoped<AlbumDetailStateProducer> {
             AlbumDetailStateProducer(
-                producer = StateProducerDelegate(
-                    initialState = AlbumDetailState(),
-                )
+                store = get<StateStore<AlbumDetailState>>(AlbumDetailQualifier.StateStore.qualifier)
             )
         }
 
@@ -68,8 +75,9 @@ internal val AlbumDetailViewModelModule = module {
         }
 
         scoped(AlbumDetailQualifier.EventContext.qualifier) {
-            EventStateContext<AlbumDetailState, AlbumDetailEvent>(
+            EventStateContext(
                 stateProducer = get<AlbumDetailStateProducer>(),
+                stateConsumer = get<StateStore<AlbumDetailState>>(AlbumDetailQualifier.StateStore.qualifier) ,
                 eventDispatcher = get(AlbumDetailQualifier.EventDispatcher.qualifier),
                 eventSource = get<EventSource<AlbumDetailEvent>>(AlbumDetailQualifier.EventSource.qualifier),
                 eventCoroutineContext = get(AlbumDetailQualifier.EventCoroutineScope.qualifier)

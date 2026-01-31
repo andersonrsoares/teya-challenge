@@ -3,9 +3,10 @@ package br.com.teya.challenge.common.event.source
 import kotlinx.coroutines.flow.MutableSharedFlow
 
 class EventSourceFlow<E>(
-    private val events: MutableSharedFlow<E> = MutableSharedFlow(),
+    private val events: MutableSharedFlow<E> = MutableSharedFlow(replay = 1),
 ): EventSource<E> {
-    
+
+
     override suspend fun emit(event: E) {
         events.emit(event)
     }
@@ -15,5 +16,4 @@ class EventSourceFlow<E>(
             onCollect(it)
         }
     }
-
 }

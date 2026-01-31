@@ -8,7 +8,7 @@ import br.com.teya.challenge.common.event.EventStateContext
 import br.com.teya.challenge.common.event.source.EventSourceFlow
 import br.com.teya.challenge.common.navigation.Navigator
 import br.com.teya.challenge.common.result.DataStateResult
-import br.com.teya.challenge.common.event.state.StateProducerDelegate
+import br.com.teya.challenge.common.event.state.StateStore
 import br.com.teya.challenge.topAlbums.domain.models.Album
 import br.com.teya.challenge.topAlbums.domain.models.AlbumImage
 import br.com.teya.challenge.topAlbums.domain.models.TopAlbumsFeed
@@ -39,11 +39,11 @@ import org.junit.Test
 class TopAlbumsListViewModelTest {
 
     private val standardTestDispatcher = StandardTestDispatcher()
-    private val stateProducerDelegate = StateProducerDelegate(
+    private val stateStore = StateStore(
         initialState =  TopAlbumsListState(),
 
     )
-    private val stateProducer: TopAlbumsListStateProducer = TopAlbumsListStateProducer(stateProducerDelegate)
+    private val stateProducer: TopAlbumsListStateProducer = TopAlbumsListStateProducer(stateStore)
     private val navigator: Navigator = mockk(relaxed = true)
     private val repository: TopAlbumsRepository = mockk(relaxed = true)
     private lateinit var viewModel: TopAlbumsListViewModel
@@ -65,6 +65,7 @@ class TopAlbumsListViewModelTest {
         )
         val eventStateContext = EventStateContext(
             stateProducer = stateProducer,
+            stateConsumer = stateStore,
             eventDispatcher = eventDispatcherDelegate,
             eventSource = eventSource,
             eventCoroutineContext = eventDispatcherDelegate

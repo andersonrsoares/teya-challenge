@@ -6,7 +6,7 @@ import br.com.teya.challenge.common.event.dispacher.EventDispatcher
 import br.com.teya.challenge.common.event.dispacher.EventDispatcherDelegate
 import br.com.teya.challenge.common.event.source.EventSource
 import br.com.teya.challenge.common.event.EventStateContext
-import br.com.teya.challenge.common.event.state.StateProducerDelegate
+import br.com.teya.challenge.common.event.state.StateStore
 import br.com.teya.challenge.presentation.list.TopAlbumsListEvent
 import br.com.teya.challenge.presentation.list.TopAlbumsListState
 import br.com.teya.challenge.presentation.list.TopAlbumsListStateProducer
@@ -27,6 +27,8 @@ private enum class TopAlbumsListQualifier(val qualifier: Qualifier) {
     EventDispatcherDelegate(named("TopAlbumsListEventDispatcherDelegate")),
     EventDispatcher(named("TopAlbumsListEventDispatcher")),
     EventSource(named("TopAlbumsListEventSource")),
+    StateStore(named("TopAlbumsListStateStore")),
+
 }
 
 @OptIn(KoinExperimentalAPI::class)
@@ -47,11 +49,16 @@ internal val TopAlbumsListViewModelModule = module {
             )
         }
 
-        scoped {
+
+        scoped<StateStore<TopAlbumsListState>>(TopAlbumsListQualifier.StateStore.qualifier) {
+            StateStore(
+                initialState = TopAlbumsListState(),
+            )
+        }
+
+        scoped<TopAlbumsListStateProducer> {
             TopAlbumsListStateProducer(
-                producer = StateProducerDelegate(
-                    initialState = TopAlbumsListState(),
-                )
+                store = get<StateStore<TopAlbumsListState>>(TopAlbumsListQualifier.StateStore.qualifier)
             )
         }
 
@@ -70,6 +77,7 @@ internal val TopAlbumsListViewModelModule = module {
         scoped(TopAlbumsListQualifier.EventContext.qualifier) {
             EventStateContext(
                 stateProducer = get<TopAlbumsListStateProducer>(),
+                stateConsumer = get<StateStore<TopAlbumsListState>>(TopAlbumsListQualifier.StateStore.qualifier),
                 eventDispatcher = get<EventDispatcher<TopAlbumsListEvent>>(TopAlbumsListQualifier.EventDispatcher.qualifier),
                 eventSource = get<EventSource<TopAlbumsListEvent>>(TopAlbumsListQualifier.EventSource.qualifier),
                 eventCoroutineContext = get(TopAlbumsListQualifier.EventCoroutineScope.qualifier),
